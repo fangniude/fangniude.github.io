@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="编程,分布式," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1. 为什么要有分布式系统？换句话说：分布式系统，在解决什么问题？ 主要解决2个问题：增大系统容量 和 加强系统可用性  增大系统容量 业务量越来越大，单机无法支撑 此时，需要垂直拆分 或 水平拆分，变成分布式系统   加强系统可用性 业务越来越重要，要让故障的时间尽可能少 不能因为一台机器故障，导致整体不可用 架构中不能存在单点故障，提高系统的可用性     名词解释 SOA 全称：Servic">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式系统架构设计">
+<meta property="og:url" content="https://fangniude.github.com/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">
+<meta property="og:site_name" content="放牛的">
+<meta property="og:description" content="1. 为什么要有分布式系统？换句话说：分布式系统，在解决什么问题？ 主要解决2个问题：增大系统容量 和 加强系统可用性  增大系统容量 业务量越来越大，单机无法支撑 此时，需要垂直拆分 或 水平拆分，变成分布式系统   加强系统可用性 业务越来越重要，要让故障的时间尽可能少 不能因为一台机器故障，导致整体不可用 架构中不能存在单点故障，提高系统的可用性     名词解释 SOA 全称：Servic">
+<meta property="og:image" content="https://fangniude.github.com/images/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/8fecccec610626a3e348318b1fd17791.png">
+<meta property="article:published_time" content="2020-04-08T09:06:12.000Z">
+<meta property="article:modified_time" content="2020-04-17T13:22:59.004Z">
+<meta property="article:author" content="放牛的">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="分布式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fangniude.github.com/images/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/8fecccec610626a3e348318b1fd17791.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://fangniude.github.com/分布式系统架构设计/"/>
+
+
+
+
+
+  <title>分布式系统架构设计 | 放牛的</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">放牛的</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">放牛的日子，是人生初恋的诗...</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://fangniude.github.com/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="放牛的">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="放牛的">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">分布式系统架构设计</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-08T17:06:12+08:00">
+                2020-04-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-为什么要有分布式系统？"><a href="#1-为什么要有分布式系统？" class="headerlink" title="1. 为什么要有分布式系统？"></a>1. 为什么要有分布式系统？</h1><p>换句话说：分布式系统，在解决什么问题？</p>
+<p>主要解决2个问题：增大系统容量 和 加强系统可用性</p>
+<ul>
+<li>增大系统容量<ul>
+<li>业务量越来越大，单机无法支撑</li>
+<li>此时，需要垂直拆分 或 水平拆分，变成分布式系统</li>
+</ul>
+</li>
+<li>加强系统可用性<ul>
+<li>业务越来越重要，要让故障的时间尽可能少</li>
+<li>不能因为一台机器故障，导致整体不可用</li>
+<li>架构中不能存在单点故障，提高系统的可用性</li>
+</ul>
+</li>
+</ul>
+<p><img src="../images/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/8fecccec610626a3e348318b1fd17791.png" alt="img"></p>
+<h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><ul>
+<li>SOA<ul>
+<li>全称：Service-oriented Architecture</li>
+<li>中文：面向服务架构</li>
+<li>变迁：从SOAP、WSDL –&gt; Restful + JSON，即传统SOA向 微服务的转变</li>
+<li>传统SOA：服务间走网络接口，RPC协议，数据库共用，</li>
+<li>微服务：HTTP协议，按服务拆分数据库</li>
+</ul>
+</li>
+<li>ESB<ul>
+<li>全称：Enterprise Service Bus</li>
+<li>中文：企业服务总线</li>
+<li>变迁：被后来的MQ所取代</li>
+</ul>
+</li>
+</ul>
+<h1 id="2-分布式系统中的问题"><a href="#2-分布式系统中的问题" class="headerlink" title="2. 分布式系统中的问题"></a>2. 分布式系统中的问题</h1><ul>
+<li>异构系统的不标准问题<ul>
+<li>软件和应用不标准</li>
+<li>通讯协议不标准</li>
+<li>数据格式不标准</li>
+<li>开发和运维 的 过程和方法 不标准</li>
+</ul>
+</li>
+<li>系统架构中，服务依赖的问题<ul>
+<li>按重要性拆分，防止重要的依赖非重要的</li>
+<li>数据库按照业务拆分</li>
+</ul>
+</li>
+<li>故障发生的概率更大<ul>
+<li>面向故障设计，关键点监控</li>
+<li>人管代码、代码管机器、人不管机器</li>
+</ul>
+</li>
+<li>多层架构运维的复杂度更大<ul>
+<li>基础层：机器、网络、存储</li>
+<li>平台层：Tomcat、MySQL、Redis、Kafka等</li>
+<li>应用层：各种功能服务</li>
+<li>接入层：网关、负载均衡、CDN、DNS等</li>
+</ul>
+</li>
+</ul>
+<h1 id="3-分布式技术栈"><a href="#3-分布式技术栈" class="headerlink" title="3. 分布式技术栈"></a>3. 分布式技术栈</h1><h2 id="3-1-做好2件事"><a href="#3-1-做好2件事" class="headerlink" title="3.1 做好2件事"></a>3.1 做好2件事</h2><ul>
+<li>大流量处理<ul>
+<li>大规模请求，分发到不同的机器上</li>
+</ul>
+</li>
+<li>关键业务保护<ul>
+<li>把故障隔离起来，防止雪崩</li>
+<li>如果流量过大，需要对业务降级，保护关键业务流程</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-2-提高架构性能"><a href="#3-2-提高架构性能" class="headerlink" title="3.2 提高架构性能"></a>3.2 提高架构性能</h2><ul>
+<li>缓存<ul>
+<li>提高系统的访问能力最有效的手段</li>
+<li>一个缓存集群，需要一个Proxy来做分片和路由</li>
+</ul>
+</li>
+<li>负载均衡<ul>
+<li>多机器分担同一个服务的压力</li>
+</ul>
+</li>
+<li>异步调用<ul>
+<li>让请求排队，把请求的峰值削平，后端以自己的速度来处理</li>
+<li>可以增加系统的吞吐量，但实时性会差很多</li>
+<li>为了防止消息丢失，还要将消息持久化，并存储状态，增加了复杂度</li>
+</ul>
+</li>
+<li>数据镜像<ul>
+<li>在任意一个点上写，内部自动同步好</li>
+<li>查询简单，可能会存在数据一致性的问题</li>
+</ul>
+</li>
+<li>数据分区<ul>
+<li>数据按照一定的方式分区，如地理位置</li>
+<li>不同的数据区，分担不同区的流量</li>
+<li>需要数据路由中间件，导致跨库的join 和 跨库的事物复杂</li>
+<li>初期、读写分离，后期分库分表</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-3-提高架构稳定性"><a href="#3-3-提高架构稳定性" class="headerlink" title="3.3 提高架构稳定性"></a>3.3 提高架构稳定性</h2><ul>
+<li>服务拆分<ul>
+<li>两个目的：隔离故障、重用服务模块</li>
+<li>会引入服务间调用的依赖</li>
+</ul>
+</li>
+<li>服务冗余<ul>
+<li>去除单点故障</li>
+<li>支持服务的弹性伸缩 和 故障迁移</li>
+</ul>
+</li>
+<li>限流降级<ul>
+<li>一种保护措施，确保整个架构不会挂掉</li>
+<li>停掉一部分服务、或 限制一部分用户</li>
+</ul>
+</li>
+<li>高可用架构<ul>
+<li>从冗余架构角度，来保障可用性</li>
+<li>多租户隔离、灾备多活等</li>
+</ul>
+</li>
+<li>高可用运维<ul>
+<li>DevOps中的CI/CD</li>
+<li>自动化测试、灰度发布、线上系统的自动化控制</li>
+<li>让「计划内」和「计划外」的宕机时间最短</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-4-分布式系统的关键技术"><a href="#3-4-分布式系统的关键技术" class="headerlink" title="3.4 分布式系统的关键技术"></a>3.4 分布式系统的关键技术</h2><ul>
+<li>服务治理<ul>
+<li>服务拆分、服务调用、服务发现、服务依赖、服务的关键度定义</li>
+<li>梳理出，服务间的依赖关系 和 调用链</li>
+</ul>
+</li>
+<li>架构软件管理<ul>
+<li>架构版本</li>
+</ul>
+</li>
+<li>DevOps</li>
+<li>自动化运维<ul>
+<li>自动伸缩、故障迁移、配置管理、状态管理等</li>
+</ul>
+</li>
+<li>资源高度管理<ul>
+<li>云计算IaaS层的计算、存储、网络等资源的高度、隔离 和 管理</li>
+</ul>
+</li>
+<li>整体架构监控<ul>
+<li>对应用层、中间层、基础层进行监控</li>
+</ul>
+</li>
+<li>流量控制<ul>
+<li>负载均衡、服务路由、熔断、降级、限流、灰度发布等</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-5-分布式系统的「纲」"><a href="#3-5-分布式系统的「纲」" class="headerlink" title="3.5 分布式系统的「纲」"></a>3.5 分布式系统的「纲」</h2><ul>
+<li>全栈系统监控</li>
+<li>服务/资源 调度</li>
+<li>流量调度</li>
+<li>状态/数据调度</li>
+<li>开发 和 运维 的自动化</li>
+</ul>
+<h3 id="3-5-1-全栈系统监控"><a href="#3-5-1-全栈系统监控" class="headerlink" title="3.5.1 全栈系统监控"></a>3.5.1 全栈系统监控</h3><ul>
+<li>多层体系的监控<ul>
+<li>基础层：CPU、内存、网络吞吐、硬盘IO、硬盘使用</li>
+<li>中间层：Nginx、Redis、ActiveMQ、Kafka、MySQL、Tomcat等</li>
+<li>应用层：HTTP访问的吞吐量、响应时间、返回码、调用链路、性能瓶颈等</li>
+</ul>
+</li>
+<li>好的日志系统<ul>
+<li>关注整体应用的SLA：从提供服务的API来监控</li>
+<li>关联指标聚合：有关联的系统、指标聚合展示</li>
+<li>快速故障定位：用户请求跟踪的trace监控，即请求在分布式系统中的调用链</li>
+<li>两个主要场景<ul>
+<li>体检<ul>
+<li>容量管理：机器、资源</li>
+<li>性能管理：找到系统瓶颈，有针对性的优化系统</li>
+</ul>
+</li>
+<li>急诊<ul>
+<li>定位问题：暴露并找到问题的发生点</li>
+<li>性能分析：快速找到系统的瓶颈</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>如何做出一个好的监控系统？<ul>
+<li>服务调用链跟踪<ul>
+<li>从对外的API开始</li>
+<li>将后台的实际服务给关联起来</li>
+<li>再进一步将这个服务的依赖服务关联起来</li>
+<li>直到最后一个服务，如MySQL、Redis</li>
+<li>最佳实践：Google Dapper，开源的Zipkin</li>
+<li>可以通过Java字节码注入，做到代码无侵入</li>
+</ul>
+</li>
+<li>服务调用时长分布<ul>
+<li>知道最耗时的服务是哪个</li>
+</ul>
+</li>
+<li>服务的TOP N视图<ul>
+<li>按调用量排名</li>
+<li>按请求最耗时排名</li>
+<li>按热点排名</li>
+</ul>
+</li>
+<li>数据库操作关联<ul>
+<li>通过JavaAgent字节码注入技术，拿到JDBC执行数据库操作的执行时间</li>
+</ul>
+</li>
+<li>服务资源跟踪<ul>
+<li>服务与机器节点上的数据（CPU、内存、IO、Disk、Network）关联起来</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-5-2-服务调度"><a href="#3-5-2-服务调度" class="headerlink" title="3.5.2 服务调度"></a>3.5.2 服务调度</h3><ul>
+<li>面向对象设计原则solid<ul>
+<li>单一职责</li>
+<li>开闭</li>
+<li>里氏替换</li>
+<li>接口隔离，多个小接口，而不是一个大接口</li>
+<li>依赖反转</li>
+<li>迪米特，最少知道</li>
+<li>组合优于继承</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>集群内节点共享数据</p>
+<ul>
+<li>Paxos</li>
+<li>Raft</li>
+<li>Gossip</li>
+</ul>
+</li>
+<li><p>分布式数据存储3大问题</p>
+<ul>
+<li>数据副本<ul>
+<li>Master-Slave</li>
+<li>Master-Master</li>
+<li>两阶段 和 三阶段 提交</li>
+<li>Paxos</li>
+</ul>
+</li>
+<li>数据一致性</li>
+<li>分布式事务</li>
+</ul>
+</li>
+<li><p>分布式事务</p>
+<ul>
+<li>应用层：两阶段提交</li>
+<li>数据库层：Paxos</li>
+</ul>
+</li>
+<li><p>分布式文件系统</p>
+</li>
+</ul>
+<ul>
+<li>弹力设计（容错能力），保障可用性<ul>
+<li>认知故障<ul>
+<li>可测量，可用性 = 平均故障前时间 / （平均故障前时间 + 平均故障恢复时间）</li>
+</ul>
+</li>
+<li>隔离<ul>
+<li>按服务隔离</li>
+<li>按用户请求隔离（租户）</li>
+</ul>
+</li>
+<li>异步通讯<ul>
+<li>请求响应式，发了请求，轮询结果</li>
+<li>观察者模式，有了事件，同步调用</li>
+<li>MQ模式，事件仍给MQ中间件</li>
+</ul>
+</li>
+<li>幂等，一个订单，多次支付请求，是否会多次支付？<ul>
+<li>产生UUID，雪花算法</li>
+<li>是没有副作用，不是结果相同</li>
+</ul>
+</li>
+<li>服务的状态</li>
+<li>补偿事务<ul>
+<li>事务<ul>
+<li>ACID<ul>
+<li>原子、一致、隔离、持久</li>
+</ul>
+</li>
+<li>BASE<ul>
+<li>基本可用、软状态、最终一致</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>补偿机制<ul>
+<li>努力的把一个流程执行完</li>
+<li>如果执行不下去，需要启动补偿机制，回滚业务流程</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>重试<ul>
+<li>暂时的故障，重试，可能解决</li>
+</ul>
+</li>
+<li>熔断Hystrix<ul>
+<li>闭合、打开、半开</li>
+</ul>
+</li>
+<li>限流<ul>
+<li>计数器</li>
+<li>队列</li>
+<li>漏斗算法</li>
+<li>令牌桶算法</li>
+<li>基于响应时间的</li>
+</ul>
+</li>
+<li>降级<ul>
+<li>降低一致性：强一致性 降为 最终一致性</li>
+<li>停止次要功能</li>
+<li>简化功能</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>管理设计<ul>
+<li>分布式锁<ul>
+<li>安全性（排他性）</li>
+<li>避免死锁</li>
+<li>容错性</li>
+<li>是否需要？<ul>
+<li>CAS是否能解决？</li>
+<li>进程间的同步、互斥？</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>配置中心<ul>
+<li>静态配置<ul>
+<li>服务启动时确定的，不会改的</li>
+</ul>
+</li>
+<li>动态配置<ul>
+<li>按运行环境分<ul>
+<li>开发、测试、预发、生产等</li>
+</ul>
+</li>
+<li>按依赖区分<ul>
+<li>外部，如连接地址</li>
+<li>内部，如日志级别、降级开关</li>
+</ul>
+</li>
+<li>按层次分<ul>
+<li>基础层，如操作系统</li>
+<li>中间层，如tomcat</li>
+<li>应用层，应用自己的配置</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>边车模式<ul>
+<li>逻辑与控制分离<ul>
+<li>服务，实现好自己的逻辑</li>
+<li>控制，交给边车处理，如 监视、日志、限流、熔断、服务注册、协议适配转换等</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>服务网格<ul>
+<li>把边车管理起来的东西</li>
+</ul>
+</li>
+<li>网关模式</li>
+<li>部署升级策略<ul>
+<li>停机</li>
+<li>蓝绿</li>
+<li>滚动</li>
+<li>灰度</li>
+<li>AB</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>性能设计<ul>
+<li>缓存<ul>
+<li>Cache Aside更新模式<ul>
+<li>读完放缓存</li>
+<li>写入时，让缓存失效</li>
+</ul>
+</li>
+<li>Read/Write Through更新模式<ul>
+<li>通过缓存读写数据库</li>
+<li>上层只用管一个操作即可</li>
+<li>缓存当作存储自带的东西</li>
+</ul>
+</li>
+<li>Write Behind Caching更新模式<ul>
+<li>只写内存</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>异步处理</li>
+<li>数据库扩展</li>
+<li>秒杀</li>
+<li>边缘计算</li>
+<li></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+          
+            <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag"># 分布式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/git%E6%8E%A2%E7%A7%98/" rel="next" title="git探秘">
+                <i class="fa fa-chevron-left"></i> git探秘
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/MySQL%E8%87%AA%E5%8A%A8%E5%A4%87%E4%BB%BD/" rel="prev" title="MySQL自动备份">
+                MySQL自动备份 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="放牛的" />
+            
+              <p class="site-author-name" itemprop="name">放牛的</p>
+              <p class="site-description motion-element" itemprop="description">随便写点东西</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/">
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-为什么要有分布式系统？"><span class="nav-text">1. 为什么要有分布式系统？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#名词解释"><span class="nav-text">名词解释</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-分布式系统中的问题"><span class="nav-text">2. 分布式系统中的问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-分布式技术栈"><span class="nav-text">3. 分布式技术栈</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-做好2件事"><span class="nav-text">3.1 做好2件事</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-提高架构性能"><span class="nav-text">3.2 提高架构性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-提高架构稳定性"><span class="nav-text">3.3 提高架构稳定性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-分布式系统的关键技术"><span class="nav-text">3.4 分布式系统的关键技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-分布式系统的「纲」"><span class="nav-text">3.5 分布式系统的「纲」</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-1-全栈系统监控"><span class="nav-text">3.5.1 全栈系统监控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-2-服务调度"><span class="nav-text">3.5.2 服务调度</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">放牛的</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

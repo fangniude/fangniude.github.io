@@ -240,6 +240,931 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://fangniude.github.com/MySQL%E8%87%AA%E5%8A%A8%E5%A4%87%E4%BB%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="放牛的">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="放牛的">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/MySQL%E8%87%AA%E5%8A%A8%E5%A4%87%E4%BB%BD/" itemprop="url">MySQL自动备份</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-18T17:06:12+08:00">
+                2020-04-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>你是否有过这样的经历：MySQL中误删了数据，数据没有备份，bin-log还没开。</p>
+<p>我今天刚经历了一次，因为是测试环境，一般认为数据丢了也没关系。但误删数据，总是会带来麻烦，有备无患。</p>
+</blockquote>
+<p>备份分2步：写个备份的Shell脚本、配置cron。</p>
+<p><strong>Shell脚本：</strong></p>
+<p>我把脚本写在<code>/usr/bin/mysql_backup.sh</code>文件中，</p>
+<p>并给它可执行权限<code>chmod +X /usr/bin/mysql_backup.sh</code>，</p>
+<p>脚本内容如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'start backup mysql...'</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'create directory[/root/mysql_backup] if not exist...'</span>;</span><br><span class="line">mkdir -p /root/mysql_backup;</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'backup mysql to [/root/mysql_backup] directory...'</span>;</span><br><span class="line">mysqldump -u root -pServyou@1 --all-databases &gt; /root/mysql_backup/all_$( date +<span class="string">"%Y_%m_%d"</span> ).sql;</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'delete old backup files'</span>;</span><br><span class="line">find /root/mysql_backup -<span class="built_in">type</span> f -mtime +10 -<span class="built_in">exec</span> rm &#123;&#125; \;</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'backup mysql finish'</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>配置CRON：</strong></p>
+<p>修改<code>/etc/crontab</code>文件，加入下行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 5 * * * root /usr/bin/mysql_backup.sh</span><br></pre></td></tr></table></figure>
+
+<p>这样，每天5点，以root用户执行该脚本。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://fangniude.github.com/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="放牛的">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="放牛的">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" itemprop="url">分布式系统架构设计</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-08T17:06:12+08:00">
+                2020-04-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="1-为什么要有分布式系统？"><a href="#1-为什么要有分布式系统？" class="headerlink" title="1. 为什么要有分布式系统？"></a>1. 为什么要有分布式系统？</h1><p>换句话说：分布式系统，在解决什么问题？</p>
+<p>主要解决2个问题：增大系统容量 和 加强系统可用性</p>
+<ul>
+<li>增大系统容量<ul>
+<li>业务量越来越大，单机无法支撑</li>
+<li>此时，需要垂直拆分 或 水平拆分，变成分布式系统</li>
+</ul>
+</li>
+<li>加强系统可用性<ul>
+<li>业务越来越重要，要让故障的时间尽可能少</li>
+<li>不能因为一台机器故障，导致整体不可用</li>
+<li>架构中不能存在单点故障，提高系统的可用性</li>
+</ul>
+</li>
+</ul>
+<p><img src="../images/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/8fecccec610626a3e348318b1fd17791.png" alt="img"></p>
+<h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><ul>
+<li>SOA<ul>
+<li>全称：Service-oriented Architecture</li>
+<li>中文：面向服务架构</li>
+<li>变迁：从SOAP、WSDL –&gt; Restful + JSON，即传统SOA向 微服务的转变</li>
+<li>传统SOA：服务间走网络接口，RPC协议，数据库共用，</li>
+<li>微服务：HTTP协议，按服务拆分数据库</li>
+</ul>
+</li>
+<li>ESB<ul>
+<li>全称：Enterprise Service Bus</li>
+<li>中文：企业服务总线</li>
+<li>变迁：被后来的MQ所取代</li>
+</ul>
+</li>
+</ul>
+<h1 id="2-分布式系统中的问题"><a href="#2-分布式系统中的问题" class="headerlink" title="2. 分布式系统中的问题"></a>2. 分布式系统中的问题</h1><ul>
+<li>异构系统的不标准问题<ul>
+<li>软件和应用不标准</li>
+<li>通讯协议不标准</li>
+<li>数据格式不标准</li>
+<li>开发和运维 的 过程和方法 不标准</li>
+</ul>
+</li>
+<li>系统架构中，服务依赖的问题<ul>
+<li>按重要性拆分，防止重要的依赖非重要的</li>
+<li>数据库按照业务拆分</li>
+</ul>
+</li>
+<li>故障发生的概率更大<ul>
+<li>面向故障设计，关键点监控</li>
+<li>人管代码、代码管机器、人不管机器</li>
+</ul>
+</li>
+<li>多层架构运维的复杂度更大<ul>
+<li>基础层：机器、网络、存储</li>
+<li>平台层：Tomcat、MySQL、Redis、Kafka等</li>
+<li>应用层：各种功能服务</li>
+<li>接入层：网关、负载均衡、CDN、DNS等</li>
+</ul>
+</li>
+</ul>
+<h1 id="3-分布式技术栈"><a href="#3-分布式技术栈" class="headerlink" title="3. 分布式技术栈"></a>3. 分布式技术栈</h1><h2 id="3-1-做好2件事"><a href="#3-1-做好2件事" class="headerlink" title="3.1 做好2件事"></a>3.1 做好2件事</h2><ul>
+<li>大流量处理<ul>
+<li>大规模请求，分发到不同的机器上</li>
+</ul>
+</li>
+<li>关键业务保护<ul>
+<li>把故障隔离起来，防止雪崩</li>
+<li>如果流量过大，需要对业务降级，保护关键业务流程</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-2-提高架构性能"><a href="#3-2-提高架构性能" class="headerlink" title="3.2 提高架构性能"></a>3.2 提高架构性能</h2><ul>
+<li>缓存<ul>
+<li>提高系统的访问能力最有效的手段</li>
+<li>一个缓存集群，需要一个Proxy来做分片和路由</li>
+</ul>
+</li>
+<li>负载均衡<ul>
+<li>多机器分担同一个服务的压力</li>
+</ul>
+</li>
+<li>异步调用<ul>
+<li>让请求排队，把请求的峰值削平，后端以自己的速度来处理</li>
+<li>可以增加系统的吞吐量，但实时性会差很多</li>
+<li>为了防止消息丢失，还要将消息持久化，并存储状态，增加了复杂度</li>
+</ul>
+</li>
+<li>数据镜像<ul>
+<li>在任意一个点上写，内部自动同步好</li>
+<li>查询简单，可能会存在数据一致性的问题</li>
+</ul>
+</li>
+<li>数据分区<ul>
+<li>数据按照一定的方式分区，如地理位置</li>
+<li>不同的数据区，分担不同区的流量</li>
+<li>需要数据路由中间件，导致跨库的join 和 跨库的事物复杂</li>
+<li>初期、读写分离，后期分库分表</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-3-提高架构稳定性"><a href="#3-3-提高架构稳定性" class="headerlink" title="3.3 提高架构稳定性"></a>3.3 提高架构稳定性</h2><ul>
+<li>服务拆分<ul>
+<li>两个目的：隔离故障、重用服务模块</li>
+<li>会引入服务间调用的依赖</li>
+</ul>
+</li>
+<li>服务冗余<ul>
+<li>去除单点故障</li>
+<li>支持服务的弹性伸缩 和 故障迁移</li>
+</ul>
+</li>
+<li>限流降级<ul>
+<li>一种保护措施，确保整个架构不会挂掉</li>
+<li>停掉一部分服务、或 限制一部分用户</li>
+</ul>
+</li>
+<li>高可用架构<ul>
+<li>从冗余架构角度，来保障可用性</li>
+<li>多租户隔离、灾备多活等</li>
+</ul>
+</li>
+<li>高可用运维<ul>
+<li>DevOps中的CI/CD</li>
+<li>自动化测试、灰度发布、线上系统的自动化控制</li>
+<li>让「计划内」和「计划外」的宕机时间最短</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-4-分布式系统的关键技术"><a href="#3-4-分布式系统的关键技术" class="headerlink" title="3.4 分布式系统的关键技术"></a>3.4 分布式系统的关键技术</h2><ul>
+<li>服务治理<ul>
+<li>服务拆分、服务调用、服务发现、服务依赖、服务的关键度定义</li>
+<li>梳理出，服务间的依赖关系 和 调用链</li>
+</ul>
+</li>
+<li>架构软件管理<ul>
+<li>架构版本</li>
+</ul>
+</li>
+<li>DevOps</li>
+<li>自动化运维<ul>
+<li>自动伸缩、故障迁移、配置管理、状态管理等</li>
+</ul>
+</li>
+<li>资源高度管理<ul>
+<li>云计算IaaS层的计算、存储、网络等资源的高度、隔离 和 管理</li>
+</ul>
+</li>
+<li>整体架构监控<ul>
+<li>对应用层、中间层、基础层进行监控</li>
+</ul>
+</li>
+<li>流量控制<ul>
+<li>负载均衡、服务路由、熔断、降级、限流、灰度发布等</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-5-分布式系统的「纲」"><a href="#3-5-分布式系统的「纲」" class="headerlink" title="3.5 分布式系统的「纲」"></a>3.5 分布式系统的「纲」</h2><ul>
+<li>全栈系统监控</li>
+<li>服务/资源 调度</li>
+<li>流量调度</li>
+<li>状态/数据调度</li>
+<li>开发 和 运维 的自动化</li>
+</ul>
+<h3 id="3-5-1-全栈系统监控"><a href="#3-5-1-全栈系统监控" class="headerlink" title="3.5.1 全栈系统监控"></a>3.5.1 全栈系统监控</h3><ul>
+<li>多层体系的监控<ul>
+<li>基础层：CPU、内存、网络吞吐、硬盘IO、硬盘使用</li>
+<li>中间层：Nginx、Redis、ActiveMQ、Kafka、MySQL、Tomcat等</li>
+<li>应用层：HTTP访问的吞吐量、响应时间、返回码、调用链路、性能瓶颈等</li>
+</ul>
+</li>
+<li>好的日志系统<ul>
+<li>关注整体应用的SLA：从提供服务的API来监控</li>
+<li>关联指标聚合：有关联的系统、指标聚合展示</li>
+<li>快速故障定位：用户请求跟踪的trace监控，即请求在分布式系统中的调用链</li>
+<li>两个主要场景<ul>
+<li>体检<ul>
+<li>容量管理：机器、资源</li>
+<li>性能管理：找到系统瓶颈，有针对性的优化系统</li>
+</ul>
+</li>
+<li>急诊<ul>
+<li>定位问题：暴露并找到问题的发生点</li>
+<li>性能分析：快速找到系统的瓶颈</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>如何做出一个好的监控系统？<ul>
+<li>服务调用链跟踪<ul>
+<li>从对外的API开始</li>
+<li>将后台的实际服务给关联起来</li>
+<li>再进一步将这个服务的依赖服务关联起来</li>
+<li>直到最后一个服务，如MySQL、Redis</li>
+<li>最佳实践：Google Dapper，开源的Zipkin</li>
+<li>可以通过Java字节码注入，做到代码无侵入</li>
+</ul>
+</li>
+<li>服务调用时长分布<ul>
+<li>知道最耗时的服务是哪个</li>
+</ul>
+</li>
+<li>服务的TOP N视图<ul>
+<li>按调用量排名</li>
+<li>按请求最耗时排名</li>
+<li>按热点排名</li>
+</ul>
+</li>
+<li>数据库操作关联<ul>
+<li>通过JavaAgent字节码注入技术，拿到JDBC执行数据库操作的执行时间</li>
+</ul>
+</li>
+<li>服务资源跟踪<ul>
+<li>服务与机器节点上的数据（CPU、内存、IO、Disk、Network）关联起来</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-5-2-服务调度"><a href="#3-5-2-服务调度" class="headerlink" title="3.5.2 服务调度"></a>3.5.2 服务调度</h3><ul>
+<li>面向对象设计原则solid<ul>
+<li>单一职责</li>
+<li>开闭</li>
+<li>里氏替换</li>
+<li>接口隔离，多个小接口，而不是一个大接口</li>
+<li>依赖反转</li>
+<li>迪米特，最少知道</li>
+<li>组合优于继承</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>集群内节点共享数据</p>
+<ul>
+<li>Paxos</li>
+<li>Raft</li>
+<li>Gossip</li>
+</ul>
+</li>
+<li><p>分布式数据存储3大问题</p>
+<ul>
+<li>数据副本<ul>
+<li>Master-Slave</li>
+<li>Master-Master</li>
+<li>两阶段 和 三阶段 提交</li>
+<li>Paxos</li>
+</ul>
+</li>
+<li>数据一致性</li>
+<li>分布式事务</li>
+</ul>
+</li>
+<li><p>分布式事务</p>
+<ul>
+<li>应用层：两阶段提交</li>
+<li>数据库层：Paxos</li>
+</ul>
+</li>
+<li><p>分布式文件系统</p>
+</li>
+</ul>
+<ul>
+<li>弹力设计（容错能力），保障可用性<ul>
+<li>认知故障<ul>
+<li>可测量，可用性 = 平均故障前时间 / （平均故障前时间 + 平均故障恢复时间）</li>
+</ul>
+</li>
+<li>隔离<ul>
+<li>按服务隔离</li>
+<li>按用户请求隔离（租户）</li>
+</ul>
+</li>
+<li>异步通讯<ul>
+<li>请求响应式，发了请求，轮询结果</li>
+<li>观察者模式，有了事件，同步调用</li>
+<li>MQ模式，事件仍给MQ中间件</li>
+</ul>
+</li>
+<li>幂等，一个订单，多次支付请求，是否会多次支付？<ul>
+<li>产生UUID，雪花算法</li>
+<li>是没有副作用，不是结果相同</li>
+</ul>
+</li>
+<li>服务的状态</li>
+<li>补偿事务<ul>
+<li>事务<ul>
+<li>ACID<ul>
+<li>原子、一致、隔离、持久</li>
+</ul>
+</li>
+<li>BASE<ul>
+<li>基本可用、软状态、最终一致</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>补偿机制<ul>
+<li>努力的把一个流程执行完</li>
+<li>如果执行不下去，需要启动补偿机制，回滚业务流程</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>重试<ul>
+<li>暂时的故障，重试，可能解决</li>
+</ul>
+</li>
+<li>熔断Hystrix<ul>
+<li>闭合、打开、半开</li>
+</ul>
+</li>
+<li>限流<ul>
+<li>计数器</li>
+<li>队列</li>
+<li>漏斗算法</li>
+<li>令牌桶算法</li>
+<li>基于响应时间的</li>
+</ul>
+</li>
+<li>降级<ul>
+<li>降低一致性：强一致性 降为 最终一致性</li>
+<li>停止次要功能</li>
+<li>简化功能</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>管理设计<ul>
+<li>分布式锁<ul>
+<li>安全性（排他性）</li>
+<li>避免死锁</li>
+<li>容错性</li>
+<li>是否需要？<ul>
+<li>CAS是否能解决？</li>
+<li>进程间的同步、互斥？</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>配置中心<ul>
+<li>静态配置<ul>
+<li>服务启动时确定的，不会改的</li>
+</ul>
+</li>
+<li>动态配置<ul>
+<li>按运行环境分<ul>
+<li>开发、测试、预发、生产等</li>
+</ul>
+</li>
+<li>按依赖区分<ul>
+<li>外部，如连接地址</li>
+<li>内部，如日志级别、降级开关</li>
+</ul>
+</li>
+<li>按层次分<ul>
+<li>基础层，如操作系统</li>
+<li>中间层，如tomcat</li>
+<li>应用层，应用自己的配置</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>边车模式<ul>
+<li>逻辑与控制分离<ul>
+<li>服务，实现好自己的逻辑</li>
+<li>控制，交给边车处理，如 监视、日志、限流、熔断、服务注册、协议适配转换等</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>服务网格<ul>
+<li>把边车管理起来的东西</li>
+</ul>
+</li>
+<li>网关模式</li>
+<li>部署升级策略<ul>
+<li>停机</li>
+<li>蓝绿</li>
+<li>滚动</li>
+<li>灰度</li>
+<li>AB</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>性能设计<ul>
+<li>缓存<ul>
+<li>Cache Aside更新模式<ul>
+<li>读完放缓存</li>
+<li>写入时，让缓存失效</li>
+</ul>
+</li>
+<li>Read/Write Through更新模式<ul>
+<li>通过缓存读写数据库</li>
+<li>上层只用管一个操作即可</li>
+<li>缓存当作存储自带的东西</li>
+</ul>
+</li>
+<li>Write Behind Caching更新模式<ul>
+<li>只写内存</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>异步处理</li>
+<li>数据库扩展</li>
+<li>秒杀</li>
+<li>边缘计算</li>
+<li></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://fangniude.github.com/git%E6%8E%A2%E7%A7%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="放牛的">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="放牛的">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/git%E6%8E%A2%E7%A7%98/" itemprop="url">git探秘</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-04T17:06:12+08:00">
+                2020-03-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="1-仓库初始化"><a href="#1-仓库初始化" class="headerlink" title="1. 仓库初始化"></a>1. 仓库初始化</h1><h2 id="1-1-准备空文件夹"><a href="#1-1-准备空文件夹" class="headerlink" title="1.1 准备空文件夹"></a>1.1 准备空文件夹</h2><p>为了探索git，我们建一个新的文件夹，在这里，可以随便怎么搞</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 删除临时文件夹(如果存在的话)，创建一个临时文件夹，并进入 </span></span><br><span class="line">➜ rm -rf tmp &amp;&amp; mkdir tmp &amp;&amp; cd $_</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 显示当前文件夹的路径</span></span><br><span class="line">➜ pwd</span><br><span class="line">/Users/lewis/tmp</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 目前，里面是空的，一个空文件夹准备好了</span></span><br><span class="line">➜ ls -al</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x    2 lewis  staff    64  3  4 09:47 .</span><br><span class="line">drwxr-xr-x+ 128 lewis  staff  4096  3  4 09:48 ..</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2-git初始化"><a href="#1-2-git初始化" class="headerlink" title="1.2 git初始化"></a>1.2 git初始化</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在这个文件夹中，建立git仓库</span></span><br><span class="line">➜ git init</span><br><span class="line">Initialized empty Git repository in /Users/lewis/tmp/.git/</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 看到多了一个 .git 文件夹</span></span><br><span class="line">➜ ls -al</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x    3 lewis  staff    96  3  4 09:41 .</span><br><span class="line">drwxr-xr-x+ 128 lewis  staff  4096  3  4 09:44 ..</span><br><span class="line">drwxr-xr-x    9 lewis  staff   288  3  4 09:43 .git</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 看看这个文件夹里有什么，嗯，有3个文件 和 4个文件夹</span></span><br><span class="line">➜ ls -al .git</span><br><span class="line">total 24</span><br><span class="line">drwxr-xr-x   9 lewis  staff  288  3  4 10:10 .</span><br><span class="line">drwxr-xr-x   3 lewis  staff   96  3  4 09:53 ..</span><br><span class="line">-rw-r--r--   1 lewis  staff   23  3  4 09:53 HEAD</span><br><span class="line">-rw-r--r--   1 lewis  staff  137  3  4 09:53 config</span><br><span class="line">-rw-r--r--   1 lewis  staff   73  3  4 09:53 description</span><br><span class="line">drwxr-xr-x  13 lewis  staff  416  3  4 09:53 hooks</span><br><span class="line">drwxr-xr-x   3 lewis  staff   96  3  4 09:53 info</span><br><span class="line">drwxr-xr-x   4 lewis  staff  128  3  4 09:53 objects</span><br><span class="line">drwxr-xr-x   4 lewis  staff  128  3  4 09:53 refs</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-3-git文件夹初探"><a href="#1-3-git文件夹初探" class="headerlink" title="1.3 .git文件夹初探"></a>1.3 .git文件夹初探</h2><p>这些都是干嘛用的呢？通过文件名，有一些好猜的，和一些不太好理解的</p>
+<ul>
+<li><p>好猜的，不妨先猜一下，</p>
+<ul>
+<li>config：配置文件</li>
+<li>description：描述文件，具体描述什么还不清楚，感觉不是核心</li>
+<li>hooks：钩子文件夹，应该是做扩展功能用的，在主流程上加些钩子</li>
+<li>info：存的是一些信息，什么信息要看一下</li>
+</ul>
+</li>
+<li><p>不好猜的</p>
+<ul>
+<li>HEAD：头？你个大头鬼啊。。。</li>
+<li>objects：存的是对象？什么是对象？</li>
+<li>refs：references的简写？存的是对象的引用？</li>
+</ul>
+</li>
+<li><p>感觉好猜的部分，是辅助功能，不好猜的才是核心</p>
+</li>
+</ul>
+<h3 id="1-3-1-辅助功能"><a href="#1-3-1-辅助功能" class="headerlink" title="1.3.1 辅助功能"></a>1.3.1 辅助功能</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> config里面存了什么？</span></span><br><span class="line">➜ cat .git/config </span><br><span class="line">[core]</span><br><span class="line">	repositoryformatversion = 0</span><br><span class="line">	filemode = true</span><br><span class="line">	bare = false</span><br><span class="line">	logallrefupdates = true</span><br><span class="line">	ignorecase = true</span><br><span class="line">	precomposeunicode = true</span><br><span class="line"><span class="meta">#</span><span class="bash"> 感觉就是些配置，能看懂一个 ignorecase，是忽略大小写，总之，这是配置文件</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> description文件呢？</span></span><br><span class="line">➜ cat .git/description </span><br><span class="line">Unnamed repository; edit this file 'description' to name the repository.</span><br><span class="line"><span class="meta">#</span><span class="bash"> 看描述，是给仓库命名用的，先不管它</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 看看hooks文件夹</span></span><br><span class="line">➜ ls -al .git/hooks </span><br><span class="line">total 96</span><br><span class="line">drwxr-xr-x  13 lewis  staff   416  3  4 09:53 .</span><br><span class="line">drwxr-xr-x   9 lewis  staff   288  3  4 10:24 ..</span><br><span class="line">-rwxr-xr-x   1 lewis  staff   478  3  4 09:53 applypatch-msg.sample</span><br><span class="line">-rwxr-xr-x   1 lewis  staff   896  3  4 09:53 commit-msg.sample</span><br><span class="line">-rwxr-xr-x   1 lewis  staff  3327  3  4 09:53 fsmonitor-watchman.sample</span><br><span class="line">-rwxr-xr-x   1 lewis  staff   189  3  4 09:53 post-update.sample</span><br><span class="line">-rwxr-xr-x   1 lewis  staff   424  3  4 09:53 pre-applypatch.sample</span><br><span class="line">-rwxr-xr-x   1 lewis  staff  1638  3  4 09:53 pre-commit.sample</span><br><span class="line">-rwxr-xr-x   1 lewis  staff  1348  3  4 09:53 pre-push.sample</span><br><span class="line">-rwxr-xr-x   1 lewis  staff  4898  3  4 09:53 pre-rebase.sample</span><br><span class="line">-rwxr-xr-x   1 lewis  staff   544  3  4 09:53 pre-receive.sample</span><br><span class="line">-rwxr-xr-x   1 lewis  staff  1492  3  4 09:53 prepare-commit-msg.sample</span><br><span class="line">-rwxr-xr-x   1 lewis  staff  3610  3  4 09:53 update.sample</span><br><span class="line"><span class="meta">#</span><span class="bash"> 里面都是些示例文件，和猜测一样，是正常流程的钩子</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> info文件夹下，只有一个文件</span></span><br><span class="line">➜  tmp git:(master) ls -al .git/info </span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x  3 lewis  staff   96  3  4 09:53 .</span><br><span class="line">drwxr-xr-x  9 lewis  staff  288  3  4 10:26 ..</span><br><span class="line">-rw-r--r--  1 lewis  staff  240  3  4 09:53 exclude</span><br><span class="line"><span class="meta">#</span><span class="bash"> exclude文件里的内容，看不太懂，感觉是排除规则之类的</span></span><br><span class="line">➜ cat .git/info/exclude </span><br><span class="line"><span class="meta">#</span><span class="bash"> git ls-files --others --exclude-from=.git/info/exclude</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Lines that start with <span class="string">'#'</span> are comments.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> For a project mostly <span class="keyword">in</span> C, the following would be a good <span class="built_in">set</span> of</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> exclude patterns (uncomment them <span class="keyword">if</span> you want to use them):</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> *.[oa]</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> *~</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-2-核心功能"><a href="#1-3-2-核心功能" class="headerlink" title="1.3.2 核心功能"></a>1.3.2 核心功能</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> HEAD 文件，这意思，是指向refs文件夹吗？</span></span><br><span class="line">➜ cat .git/HEAD </span><br><span class="line">ref: refs/heads/master</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 那就先看refs里面有什么吧！</span></span><br><span class="line">➜  tmp git:(master) ls -alR .git/refs </span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x  4 lewis  staff  128  3  4 09:53 .</span><br><span class="line">drwxr-xr-x  9 lewis  staff  288  3  4 10:34 ..</span><br><span class="line">drwxr-xr-x  2 lewis  staff   64  3  4 09:53 heads</span><br><span class="line">drwxr-xr-x  2 lewis  staff   64  3  4 09:53 tags</span><br><span class="line"></span><br><span class="line">.git/refs/heads:</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x  2 lewis  staff   64  3  4 09:53 .</span><br><span class="line">drwxr-xr-x  4 lewis  staff  128  3  4 09:53 ..</span><br><span class="line"></span><br><span class="line">.git/refs/tags:</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x  2 lewis  staff   64  3  4 09:53 .</span><br><span class="line">drwxr-xr-x  4 lewis  staff  128  3  4 09:53 ..</span><br><span class="line"><span class="meta">#</span><span class="bash"> refs里面有两个子文件夹，heads 和 tags，目前都是空的</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 有个heads，看来HEAD很可能是指向这个里面的</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> objects里面，也是两个空文件夹</span></span><br><span class="line">➜  tmp git:(master) ls -alR .git/objects </span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x  4 lewis  staff  128  3  4 09:53 .</span><br><span class="line">drwxr-xr-x  9 lewis  staff  288  3  4 10:37 ..</span><br><span class="line">drwxr-xr-x  2 lewis  staff   64  3  4 09:53 info</span><br><span class="line">drwxr-xr-x  2 lewis  staff   64  3  4 09:53 pack</span><br><span class="line"></span><br><span class="line">.git/objects/info:</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x  2 lewis  staff   64  3  4 09:53 .</span><br><span class="line">drwxr-xr-x  4 lewis  staff  128  3  4 09:53 ..</span><br><span class="line"></span><br><span class="line">.git/objects/pack:</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x  2 lewis  staff   64  3  4 09:53 .</span><br><span class="line">drwxr-xr-x  4 lewis  staff  128  3  4 09:53 ..</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-初识git"><a href="#2-初识git" class="headerlink" title="2. 初识git"></a>2. 初识git</h1><h2 id="2-1-创建文件"><a href="#2-1-创建文件" class="headerlink" title="2.1 创建文件"></a>2.1 创建文件</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建一个空文件，取名为 hello.txt</span></span><br><span class="line">➜ touch hello.txt</span><br><span class="line">➜ ll</span><br><span class="line">total 0</span><br><span class="line">-rw-r--r--  1 lewis  staff     0B  3  4 10:46 hello.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-交给git管理"><a href="#2-2-交给git管理" class="headerlink" title="2.2 交给git管理"></a>2.2 交给git管理</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 加到git中</span></span><br><span class="line">➜ git add hello.txt</span><br><span class="line"><span class="meta">#</span><span class="bash"> 此时，refs 和 objects无变化，但多出了一个index文件</span></span><br><span class="line">➜ ls -al .git/     </span><br><span class="line">total 32</span><br><span class="line">drwxr-xr-x  10 lewis  staff  320  3  4 10:47 .</span><br><span class="line">drwxr-xr-x   4 lewis  staff  128  3  4 10:46 ..</span><br><span class="line">-rw-r--r--   1 lewis  staff   23  3  4 09:53 HEAD</span><br><span class="line">-rw-r--r--   1 lewis  staff  137  3  4 09:53 config</span><br><span class="line">-rw-r--r--   1 lewis  staff   73  3  4 09:53 description</span><br><span class="line">drwxr-xr-x  13 lewis  staff  416  3  4 09:53 hooks</span><br><span class="line">-rw-r--r--   1 lewis  staff  104  3  4 10:47 index</span><br><span class="line">drwxr-xr-x   3 lewis  staff   96  3  4 09:53 info</span><br><span class="line">drwxr-xr-x   5 lewis  staff  160  3  4 10:47 objects</span><br><span class="line">drwxr-xr-x   4 lewis  staff  128  3  4 09:53 refs</span><br><span class="line">➜ cat .git/index </span><br><span class="line">DIRC^_????^_????YI?????⛲??CK?)?wZ???S?	hello.txt?kEO?</span><br><span class="line">                                                      ?Z.?!P?a?5e?8%</span><br><span class="line"><span class="meta">#</span><span class="bash"> index这个文件中有乱码，看来存的是二进制</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 能看到hello.txt，说明git add后，改动是存到这个文件的</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>结论一：</strong></p>
+<blockquote>
+<p>git add 指令，改动了「.git/index」这个文件。</p>
+</blockquote>
+<h2 id="2-3-提交为一个版本"><a href="#2-3-提交为一个版本" class="headerlink" title="2.3 提交为一个版本"></a>2.3 提交为一个版本</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 提交</span></span><br><span class="line">➜ git commit -m 'first file'</span><br><span class="line">[master (root-commit) 528022a] first file</span><br><span class="line"> 1 file changed, 0 insertions(+), 0 deletions(-)</span><br><span class="line"> create mode 100644 hello.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-4-初步分析"><a href="#2-4-初步分析" class="headerlink" title="2.4 初步分析"></a>2.4 初步分析</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 看看index，感觉有改动，但看不出来具体做了什么</span></span><br><span class="line">➜  tmp git:(master) cat .git/index </span><br><span class="line">DIRC^_????^_????YI?????⛲??CK?)?wZ???S?	hello.txtTREE1 0</span><br><span class="line">:1???[B??B???%                                                                                                                                      </span><br><span class="line"><span class="meta">#</span><span class="bash"> refs文件夹中，在heads里，多了一个master文件</span></span><br><span class="line">➜  tmp git:(master) ls -alR .git/refs</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x   4 lewis  staff  128  3  4 09:53 .</span><br><span class="line">drwxr-xr-x  12 lewis  staff  384  3  4 11:06 ..</span><br><span class="line">drwxr-xr-x   3 lewis  staff   96  3  4 10:48 heads</span><br><span class="line">drwxr-xr-x   2 lewis  staff   64  3  4 09:53 tags</span><br><span class="line"></span><br><span class="line">.git/refs/heads:</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x  3 lewis  staff   96  3  4 10:48 .</span><br><span class="line">drwxr-xr-x  4 lewis  staff  128  3  4 09:53 ..</span><br><span class="line">-rw-r--r--  1 lewis  staff   41  3  4 10:48 master</span><br><span class="line"></span><br><span class="line">.git/refs/tags:</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x  2 lewis  staff   64  3  4 09:53 .</span><br><span class="line">drwxr-xr-x  4 lewis  staff  128  3  4 09:53 ..</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> objects文件夹中，多了3个文件夹，每个文件夹里都出现了一个文件</span></span><br><span class="line">➜  tmp git:(master) ls -alR .git/objects    </span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x   7 lewis  staff  224  3  4 10:48 .</span><br><span class="line">drwxr-xr-x  12 lewis  staff  384  3  4 10:50 ..</span><br><span class="line">drwxr-xr-x   3 lewis  staff   96  3  4 10:48 52</span><br><span class="line">drwxr-xr-x   3 lewis  staff   96  3  4 10:47 e6</span><br><span class="line">drwxr-xr-x   3 lewis  staff   96  3  4 10:48 fc</span><br><span class="line">drwxr-xr-x   2 lewis  staff   64  3  4 09:53 info</span><br><span class="line">drwxr-xr-x   2 lewis  staff   64  3  4 09:53 pack</span><br><span class="line"></span><br><span class="line">.git/objects/52:</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x  3 lewis  staff   96  3  4 10:48 .</span><br><span class="line">drwxr-xr-x  7 lewis  staff  224  3  4 10:48 ..</span><br><span class="line">-r--r--r--  1 lewis  staff  127  3  4 10:48 8022a97b413fae3f4a8cc0e308e5506a598ea3</span><br><span class="line"></span><br><span class="line">.git/objects/e6:</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x  3 lewis  staff   96  3  4 10:47 .</span><br><span class="line">drwxr-xr-x  7 lewis  staff  224  3  4 10:48 ..</span><br><span class="line">-r--r--r--  1 lewis  staff   15  3  4 10:47 9de29bb2d1d6434b8b29ae775ad8c2e48c5391</span><br><span class="line"></span><br><span class="line">.git/objects/fc:</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x  3 lewis  staff   96  3  4 10:48 .</span><br><span class="line">drwxr-xr-x  7 lewis  staff  224  3  4 10:48 ..</span><br><span class="line">-r--r--r--  1 lewis  staff   54  3  4 10:48 b545d5746547a597811b7441ed8eba307be1ff</span><br><span class="line"></span><br><span class="line">.git/objects/info:</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x  2 lewis  staff   64  3  4 09:53 .</span><br><span class="line">drwxr-xr-x  7 lewis  staff  224  3  4 10:48 ..</span><br><span class="line"></span><br><span class="line">.git/objects/pack:</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x  2 lewis  staff   64  3  4 09:53 .</span><br><span class="line">drwxr-xr-x  7 lewis  staff  224  3  4 10:48 ..</span><br></pre></td></tr></table></figure>
+
+<p><strong>结论二：</strong></p>
+<blockquote>
+<p>git commit时，对「.git/index」文件有改动；</p>
+<p>git commit时，在「.git/objects」文件夹下，会增加文件；</p>
+</blockquote>
+<h2 id="2-5-引用分析"><a href="#2-5-引用分析" class="headerlink" title="2.5 引用分析"></a>2.5 引用分析</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 有没有发现，refs里面多出来的文件，正是HEAD文件所指向的？</span></span><br><span class="line">➜ cat .git/HEAD </span><br><span class="line">ref: refs/heads/master</span><br><span class="line">➜ ls -al .git/refs/heads/master </span><br><span class="line">-rw-r--r--  1 lewis  staff  41  3  4 10:48 .git/refs/heads/master</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 那这个master文件里面又存了什么？</span></span><br><span class="line">➜  tmp git:(master) cat .git/refs/heads/master </span><br><span class="line">528022a97b413fae3f4a8cc0e308e5506a598ea3</span><br><span class="line"><span class="meta">#</span><span class="bash"> 看着有点眼熟，确认一下</span></span><br><span class="line">➜  tmp git:(master) ls -al .git/objects/52/8022a97b413fae3f4a8cc0e308e5506a598ea3 </span><br><span class="line">-r--r--r--  1 lewis  staff  127  3  4 10:48 .git/objects/52/8022a97b413fae3f4a8cc0e308e5506a598ea3</span><br></pre></td></tr></table></figure>
+
+<p><strong>结论三：</strong></p>
+<blockquote>
+<p>「.git/HEAD」是一个指针文件，可以指向「.git/refs」中的文件；</p>
+<p>「.git/refs/heads/master」文件也是一个指针，指向「.git/objects」里面的一个文件；</p>
+</blockquote>
+<h2 id="2-6-对象分析"><a href="#2-6-对象分析" class="headerlink" title="2.6 对象分析"></a>2.6 对象分析</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 用了个不熟悉的命令，它是查看这一串对象中存储内容的一个指令</span></span><br><span class="line">➜ git cat-file -p 528022a97b413fae3f4a8cc0e308e5506a598ea3</span><br><span class="line">tree fcb545d5746547a597811b7441ed8eba307be1ff</span><br><span class="line">author Lewis &lt;fangniude@gmail.com&gt; 1583290125 +0800</span><br><span class="line">committer Lewis &lt;fangniude@gmail.com&gt; 1583290125 +0800</span><br><span class="line"></span><br><span class="line">first file</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>可以看到，文件中有<code>committer</code>和<code>first file</code>，说明这个对象存储的是commit的信息，就叫它<code>commit对象</code>吧</li>
+<li>还有一个<code>tree</code>，指向了另一个对象，那就叫它<code>tree对象</code>吧</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 看看 tree对象 中存了什么</span></span><br><span class="line">➜ git cat-file -p fcb545d5746547a597811b7441ed8eba307be1ff</span><br><span class="line">100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391	hello.txt</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>tree对象</code> 指向了第3个对象，感觉就是我们刚才新建的<code>hello.txt</code>文件</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 看看hello.txt 文件</span></span><br><span class="line">➜  git cat-file -p e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>这个文件里面是空的，我们刚才的确没有写内容进去</li>
+</ul>
+<p><strong>结论四：</strong></p>
+<blockquote>
+<p>「.git/objects」里面，会存储commit对象、tree对象 和 blob对象；</p>
+<p>commit对象，对应的是一个commit，会指向一个tree对象；</p>
+<p>tree对象对应的是文件夹，还存储了其中文件的名字 和 这些文件的指针；</p>
+<p>blob对象存储文件的内容</p>
+</blockquote>
+<h2 id="2-7-第1次提交图"><a href="#2-7-第1次提交图" class="headerlink" title="2.7 第1次提交图"></a>2.7 第1次提交图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line"></span><br><span class="line">T1[&#x2F;第1次提交tree&#x2F;] --&gt;|hello.txt| F1(空文件)</span><br><span class="line">C1[第1次提交] --&gt;T1</span><br><span class="line"></span><br><span class="line">M((master)) -.-&gt; C1</span><br><span class="line">H((HEAD)) -.-&gt; M</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-8-第2次提交"><a href="#2-8-第2次提交" class="headerlink" title="2.8 第2次提交"></a>2.8 第2次提交</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 再建一个空的文件</span></span><br><span class="line">➜ touch hello.copy</span><br><span class="line"><span class="meta">#</span><span class="bash"> 交给git管理</span></span><br><span class="line">➜ git add hello.copy </span><br><span class="line"><span class="meta">#</span><span class="bash"> 提交</span></span><br><span class="line">➜ git commit -m 'add hello.copy'</span><br><span class="line">[master 9222323] add hello.copy</span><br><span class="line"> 1 file changed, 0 insertions(+), 0 deletions(-)</span><br><span class="line"> create mode 100644 hello.copy</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 继续分析，master文件指向的对象变了</span></span><br><span class="line">➜ cat .git/refs/heads/master </span><br><span class="line">92223238a21c13bec2663fe349e8ea1dbfab97bb</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 这是新的commit对象，除了指向tree对象之外，还指向了一个parent</span></span><br><span class="line">➜ git cat-file -p 92223238a21c13bec2663fe349e8ea1dbfab97bb</span><br><span class="line">tree 598293c40ffff2b5d26ab7f9d78601e8d8d05d94</span><br><span class="line">parent 528022a97b413fae3f4a8cc0e308e5506a598ea3</span><br><span class="line">author Lewis &lt;fangniude@gmail.com&gt; 1583295073 +0800</span><br><span class="line">committer Lewis &lt;fangniude@gmail.com&gt; 1583295073 +0800</span><br><span class="line"></span><br><span class="line">add hello.copy</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> parent对象就是上一次commit</span></span><br><span class="line">➜  tmp git:(master) git cat-file -p 528022a97b413fae3f4a8cc0e308e5506a598ea3</span><br><span class="line">tree fcb545d5746547a597811b7441ed8eba307be1ff</span><br><span class="line">author Lewis &lt;fangniude@gmail.com&gt; 1583290125 +0800</span><br><span class="line">committer Lewis &lt;fangniude@gmail.com&gt; 1583290125 +0800</span><br><span class="line"></span><br><span class="line">first file</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> tree对象里面，有了两个文件，两个文件指向了同一个blob对象</span></span><br><span class="line">➜  tmp git:(master) git cat-file -p 598293c40ffff2b5d26ab7f9d78601e8d8d05d94</span><br><span class="line">100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391	hello.copy</span><br><span class="line">100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391	hello.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 不妨看看此时的objects，变成5个对象，多了一个commit对象 和 一个tree对象</span></span><br><span class="line">➜  tmp git:(master) ls -alR .git/objects</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x   9 lewis  staff  288  3  4 12:11 .</span><br><span class="line">drwxr-xr-x  12 lewis  staff  384  3  4 12:29 ..</span><br><span class="line">drwxr-xr-x   3 lewis  staff   96  3  4 10:48 52</span><br><span class="line">drwxr-xr-x   3 lewis  staff   96  3  4 12:11 59</span><br><span class="line">drwxr-xr-x   3 lewis  staff   96  3  4 12:11 92</span><br><span class="line">drwxr-xr-x   3 lewis  staff   96  3  4 10:47 e6</span><br><span class="line">drwxr-xr-x   3 lewis  staff   96  3  4 10:48 fc</span><br><span class="line">drwxr-xr-x   2 lewis  staff   64  3  4 09:53 info</span><br><span class="line">drwxr-xr-x   2 lewis  staff   64  3  4 09:53 pack</span><br><span class="line"></span><br><span class="line">.git/objects/52:</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x  3 lewis  staff   96  3  4 10:48 .</span><br><span class="line">drwxr-xr-x  9 lewis  staff  288  3  4 12:11 ..</span><br><span class="line">-r--r--r--  1 lewis  staff  127  3  4 10:48 8022a97b413fae3f4a8cc0e308e5506a598ea3</span><br><span class="line"></span><br><span class="line">.git/objects/59:</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x  3 lewis  staff   96  3  4 12:11 .</span><br><span class="line">drwxr-xr-x  9 lewis  staff  288  3  4 12:11 ..</span><br><span class="line">-r--r--r--  1 lewis  staff   63  3  4 12:11 8293c40ffff2b5d26ab7f9d78601e8d8d05d94</span><br><span class="line"></span><br><span class="line">.git/objects/92:</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x  3 lewis  staff   96  3  4 12:11 .</span><br><span class="line">drwxr-xr-x  9 lewis  staff  288  3  4 12:11 ..</span><br><span class="line">-r--r--r--  1 lewis  staff  160  3  4 12:11 223238a21c13bec2663fe349e8ea1dbfab97bb</span><br><span class="line"></span><br><span class="line">.git/objects/e6:</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x  3 lewis  staff   96  3  4 10:47 .</span><br><span class="line">drwxr-xr-x  9 lewis  staff  288  3  4 12:11 ..</span><br><span class="line">-r--r--r--  1 lewis  staff   15  3  4 12:11 9de29bb2d1d6434b8b29ae775ad8c2e48c5391</span><br><span class="line"></span><br><span class="line">.git/objects/fc:</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x  3 lewis  staff   96  3  4 10:48 .</span><br><span class="line">drwxr-xr-x  9 lewis  staff  288  3  4 12:11 ..</span><br><span class="line">-r--r--r--  1 lewis  staff   54  3  4 10:48 b545d5746547a597811b7441ed8eba307be1ff</span><br><span class="line"></span><br><span class="line">.git/objects/info:</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x  2 lewis  staff   64  3  4 09:53 .</span><br><span class="line">drwxr-xr-x  9 lewis  staff  288  3  4 12:11 ..</span><br><span class="line"></span><br><span class="line">.git/objects/pack:</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x  2 lewis  staff   64  3  4 09:53 .</span><br><span class="line">drwxr-xr-x  9 lewis  staff  288  3  4 12:11 ..</span><br></pre></td></tr></table></figure>
+
+<p><strong>结论五：</strong></p>
+<blockquote>
+<p>增加一个commit后，master这个指针会指向新的commit；</p>
+<p>commit对象可以指向其parent，即上一次提交；</p>
+<p>同一个文件(内容相同的对象)只存储一份；</p>
+</blockquote>
+<h2 id="2-9-第2次提交图"><a href="#2-9-第2次提交图" class="headerlink" title="2.9 第2次提交图"></a>2.9 第2次提交图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">T1[&#x2F;第1次提交tree&#x2F;] --&gt;|hello.txt| F1(空文件)</span><br><span class="line">C1[第1次提交] --&gt;T1</span><br><span class="line"></span><br><span class="line">T2[&#x2F;第2次提交tree&#x2F;] --&gt;|hello.txt| F1</span><br><span class="line">T2 --&gt;|hell.copy| F1</span><br><span class="line">C2[第2次提交] --&gt;T2</span><br><span class="line"></span><br><span class="line">C2 --&gt;C1</span><br><span class="line"></span><br><span class="line">M((master)) -.-&gt; C2</span><br><span class="line">H((HEAD)) -.-&gt; M</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-分支branch"><a href="#3-分支branch" class="headerlink" title="3. 分支branch"></a>3. 分支branch</h1><h2 id="3-1-建dev分支"><a href="#3-1-建dev分支" class="headerlink" title="3.1 建dev分支"></a>3.1 建dev分支</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 看看当前有哪些分支</span></span><br><span class="line">➜ git branch</span><br><span class="line">* master</span><br><span class="line">(END)</span><br><span class="line"><span class="meta">#</span><span class="bash"> 看到只有一个master分支，前面有个`*`代表当前在这个分支</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建dev分支</span></span><br><span class="line">➜ git branch dev</span><br><span class="line">➜ git branch</span><br><span class="line">  dev</span><br><span class="line">* master</span><br><span class="line">(END)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 切换到dev分支</span></span><br><span class="line">➜ git checkout dev</span><br><span class="line">Switched to branch 'dev'</span><br><span class="line">➜ git branch</span><br><span class="line">* dev</span><br><span class="line">  master</span><br><span class="line">(END)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 看看现在HEAD在哪儿？</span></span><br><span class="line">➜ cat .git/HEAD </span><br><span class="line">ref: refs/heads/dev</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 多出来一个dev文件，其中的内容 和 master完成一样</span></span><br><span class="line">➜ cat .git/refs/heads/dev </span><br><span class="line">92223238a21c13bec2663fe349e8ea1dbfab97bb</span><br><span class="line">➜ cat .git/refs/heads/master</span><br><span class="line">92223238a21c13bec2663fe349e8ea1dbfab97bb</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 看看 .git/refs/heads 文件夹下的内容</span></span><br><span class="line">➜ ls -al .git/refs/heads </span><br><span class="line">total 16</span><br><span class="line">drwxr-xr-x  4 lewis  staff  128  3  4 14:31 .</span><br><span class="line">drwxr-xr-x  4 lewis  staff  128  3  4 09:53 ..</span><br><span class="line">-rw-r--r--  1 lewis  staff   41  3  4 14:31 dev</span><br><span class="line">-rw-r--r--  1 lewis  staff   41  3  4 12:11 master</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">T1[&#x2F;第1次提交tree&#x2F;] --&gt;|hello.txt| F1(空文件)</span><br><span class="line">C1[第1次提交] --&gt;T1</span><br><span class="line"></span><br><span class="line">T2[&#x2F;第2次提交tree&#x2F;] --&gt;|hello.txt| F1</span><br><span class="line">T2 --&gt;|hell.copy| F1</span><br><span class="line">C2[第2次提交] --&gt;T2</span><br><span class="line"></span><br><span class="line">C2 --&gt;C1</span><br><span class="line"></span><br><span class="line">M((master)) -.-&gt; C2</span><br><span class="line">D((dev)) -.-&gt; C2</span><br><span class="line">H((HEAD)) -.-&gt; D</span><br></pre></td></tr></table></figure>
+
+<p><strong>结论六：</strong></p>
+<blockquote>
+<p>分支是通过「refs/heads」下面的文件来管理，一个文件一个分支；</p>
+<p>HEAD 指向哪儿，代表当前在哪个分支</p>
+</blockquote>
+<h2 id="3-2-dev分支提交"><a href="#3-2-dev分支提交" class="headerlink" title="3.2 dev分支提交"></a>3.2 dev分支提交</h2><p><strong>注意：</strong> 为了简化，我们在dev分支，先退回「第1次提交」，然后再做「第3次提交」</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 回到第1次提交</span></span><br><span class="line">➜ git reset --hard 528022a97b413fae3f4a8cc0e308e5506a598ea3</span><br><span class="line">HEAD is now at 528022a first file</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 验证一下，的确只有一个文件</span></span><br><span class="line">➜  tmp git:(dev) ls -al</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x    4 lewis  staff   128  3  4 14:54 .</span><br><span class="line">drwxr-xr-x+ 128 lewis  staff  4096  3  4 14:55 ..</span><br><span class="line">drwxr-xr-x   13 lewis  staff   416  3  4 14:55 .git</span><br><span class="line">-rw-r--r--    1 lewis  staff     0  3  4 10:46 hello.txt</span><br></pre></td></tr></table></figure>
+
+<p>然后，增加一个文件夹，并在其中增加个文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 新建 testBranch文件夹</span></span><br><span class="line">➜ mkdir testBranch</span><br><span class="line"><span class="meta">#</span><span class="bash"> 添加个有内容的文件</span></span><br><span class="line">➜ echo 'this is dev file' &gt; testBranch/devAdd.txt</span><br><span class="line"><span class="meta">#</span><span class="bash"> 确认下，文件添加成功了，其中有内容</span></span><br><span class="line">➜ cat testBranch/devAdd.txt </span><br><span class="line">this is dev file</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 加到index中</span></span><br><span class="line">➜ git add testBranch/devAdd.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 第3次提交</span></span><br><span class="line">➜ git commit -m 'third commit'</span><br><span class="line">[dev 1616454] third commit</span><br><span class="line"> 1 file changed, 1 insertion(+)</span><br><span class="line"> create mode 100644 testBranch/devAdd.txt</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash"> 当前是怎么样的呢？</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 先看HEAD，还是指向dev</span></span><br><span class="line">➜  tmp git:(dev) cat .git/HEAD </span><br><span class="line">ref: refs/heads/dev</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> dev指向了第3次提交</span></span><br><span class="line">➜  tmp git:(dev) cat .git/refs/heads/dev </span><br><span class="line">161645439e35c5db8f4755641ca98815c69a9d63</span><br><span class="line">➜  tmp git:(dev) git cat-file -p 161645439e35c5db8f4755641ca98815c69a9d63</span><br><span class="line">tree fb54f679949f2593bb83d4179f8c7d058393235c</span><br><span class="line">parent 528022a97b413fae3f4a8cc0e308e5506a598ea3</span><br><span class="line">author Lewis &lt;fangniude@gmail.com&gt; 1583306810 +0800</span><br><span class="line">committer Lewis &lt;fangniude@gmail.com&gt; 1583306810 +0800</span><br><span class="line"></span><br><span class="line">third commit</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 第3次提交的parent，是第1次提交，没毛病</span></span><br><span class="line">➜  tmp git:(dev) git cat-file -p 528022a97b413fae3f4a8cc0e308e5506a598ea3</span><br><span class="line">tree fcb545d5746547a597811b7441ed8eba307be1ff</span><br><span class="line">author Lewis &lt;fangniude@gmail.com&gt; 1583290125 +0800</span><br><span class="line">committer Lewis &lt;fangniude@gmail.com&gt; 1583290125 +0800</span><br><span class="line"></span><br><span class="line">first file</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 第3次提交的tree对象中，除了第1次提交的hello.txt外，还有一个tree对象，指向testBranch</span></span><br><span class="line">➜  tmp git:(dev) git cat-file -p fb54f679949f2593bb83d4179f8c7d058393235c</span><br><span class="line">100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391	hello.txt</span><br><span class="line">040000 tree ba015591b2652a669fc5892ff58023af8482e8c3	testBranch</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> testBranch这个对象，包含1个blob对象，即devAdd.txt这个文件</span></span><br><span class="line">➜  tmp git:(dev) git cat-file -p ba015591b2652a669fc5892ff58023af8482e8c3</span><br><span class="line">100644 blob 101ff992f2995edf65ee71ebee38b7ba412555cf	devAdd.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 这个文件中的内容，是刚才输入的文字</span></span><br><span class="line">➜  tmp git:(dev) git cat-file -p 101ff992f2995edf65ee71ebee38b7ba412555cf</span><br><span class="line">this is dev file</span><br></pre></td></tr></table></figure>
+
+<p>看看现在的图：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">T1[&#x2F;第1次提交tree&#x2F;] --&gt;|hello.txt| F1(空文件)</span><br><span class="line">C1[第1次提交] --&gt;T1</span><br><span class="line"></span><br><span class="line">T2[&#x2F;第2次提交tree&#x2F;] --&gt;|hello.txt| F1</span><br><span class="line">T2 --&gt;|hell.copy| F1</span><br><span class="line">C2[第2次提交] --&gt;T2</span><br><span class="line">C2 --&gt;C1</span><br><span class="line"></span><br><span class="line">T3[&#x2F;testBranch的tree&#x2F;] --&gt;F2(devAdd.txt)</span><br><span class="line">T4[&#x2F;第3次提交tree&#x2F;] --&gt;|hello.txt| F1</span><br><span class="line">T4 --&gt; T3</span><br><span class="line">C3[第3次提交] --&gt; T4</span><br><span class="line"></span><br><span class="line">M((master)) -.-&gt; C2</span><br><span class="line">D((dev)) -.-&gt; C3</span><br><span class="line">H((HEAD)) -.-&gt; D</span><br></pre></td></tr></table></figure>
+
+<p><strong>结论七：</strong></p>
+<blockquote>
+<p>分支就是个引用（或 指针），可以随便指向哪个对象；</p>
+<p>在引用改变的时候，对象不用动；</p>
+<p>每一次提交，都会生成一个新的「提交tree」；</p>
+<p>文件夹是通过「tree对象」管理版本的，tree对象可以指向tree对象 和 blob对象</p>
+</blockquote>
+<h2 id="3-3-分支合并"><a href="#3-3-分支合并" class="headerlink" title="3.3 分支合并"></a>3.3 分支合并</h2><p>将dev分支的，合并到master分支。</p>
+<h3 id="3-3-1-merge合并"><a href="#3-3-1-merge合并" class="headerlink" title="3.3.1 merge合并"></a>3.3.1 merge合并</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 切回master分支</span></span><br><span class="line">➜ git checkout master</span><br><span class="line">Switched to branch 'master'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 从dev分支merge过来</span></span><br><span class="line">➜ git merge dev</span><br><span class="line">Merge made by the 'recursive' strategy.</span><br><span class="line"> testBranch/devAdd.txt | 1 +</span><br><span class="line"> 1 file changed, 1 insertion(+)</span><br><span class="line"> create mode 100644 testBranch/devAdd.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 来看现在是怎么样的，还是从HEAD开始</span></span><br><span class="line">➜ cat .git/HEAD</span><br><span class="line">ref: refs/heads/master</span><br><span class="line"><span class="meta">#</span><span class="bash"> 看看master里面，指向了一个新的merge commit，它有2个parent</span></span><br><span class="line">➜ cat .git/refs/heads/master </span><br><span class="line">bb6c11e29dcc8865f9c8eae2da89750fd29bf005</span><br><span class="line">➜ git cat-file -p bb6c11e29dcc8865f9c8eae2da89750fd29bf005</span><br><span class="line">tree 202b85d575214f94ed494ee026e8b2cdb4fcab4f</span><br><span class="line">parent 92223238a21c13bec2663fe349e8ea1dbfab97bb</span><br><span class="line">parent 161645439e35c5db8f4755641ca98815c69a9d63</span><br><span class="line">author Lewis &lt;fangniude@gmail.com&gt; 1583313790 +0800</span><br><span class="line">committer Lewis &lt;fangniude@gmail.com&gt; 1583313790 +0800</span><br><span class="line"></span><br><span class="line">Merge branch 'dev'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 第1个parent是 第2次提交</span></span><br><span class="line">➜ git cat-file -p 92223238a21c13bec2663fe349e8ea1dbfab97bb</span><br><span class="line">tree 598293c40ffff2b5d26ab7f9d78601e8d8d05d94</span><br><span class="line">parent 528022a97b413fae3f4a8cc0e308e5506a598ea3</span><br><span class="line">author Lewis &lt;fangniude@gmail.com&gt; 1583295073 +0800</span><br><span class="line">committer Lewis &lt;fangniude@gmail.com&gt; 1583295073 +0800</span><br><span class="line"></span><br><span class="line">add hello.copy</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 第2个parent是 第3次提交</span></span><br><span class="line">➜ git cat-file -p 161645439e35c5db8f4755641ca98815c69a9d63</span><br><span class="line">tree fb54f679949f2593bb83d4179f8c7d058393235c</span><br><span class="line">parent 528022a97b413fae3f4a8cc0e308e5506a598ea3</span><br><span class="line">author Lewis &lt;fangniude@gmail.com&gt; 1583306810 +0800</span><br><span class="line">committer Lewis &lt;fangniude@gmail.com&gt; 1583306810 +0800</span><br><span class="line"></span><br><span class="line">third commit</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 当然，它还指向了第4次提交的树，其中有原来master 和 dev所有的文件</span></span><br><span class="line">➜ git cat-file -p 202b85d575214f94ed494ee026e8b2cdb4fcab4f</span><br><span class="line">100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391	hello.copy</span><br><span class="line">100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391	hello.txt</span><br><span class="line">040000 tree ba015591b2652a669fc5892ff58023af8482e8c3	testBranch</span><br></pre></td></tr></table></figure>
+
+<p><strong>现在的图，是这样的：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">T1[&#x2F;第1次提交tree&#x2F;] --&gt;|hello.txt| F1(空文件)</span><br><span class="line">C1[第1次提交] --&gt;T1</span><br><span class="line"></span><br><span class="line">T2[&#x2F;第2次提交tree&#x2F;] --&gt;|hello.txt| F1</span><br><span class="line">T2 --&gt;|hell.copy| F1</span><br><span class="line">C2[第2次提交] --&gt;T2</span><br><span class="line">C2 --&gt;C1</span><br><span class="line"></span><br><span class="line">T3[&#x2F;testBranch的tree&#x2F;] --&gt;F2(devAdd.txt)</span><br><span class="line">T4[&#x2F;第3次提交tree&#x2F;] --&gt;|hello.txt| F1</span><br><span class="line">T4 --&gt; T3</span><br><span class="line">C3[第3次提交] --&gt; T4</span><br><span class="line"></span><br><span class="line">T5[&#x2F;第4次提交tree&#x2F;] --&gt;|hello.txt|F1</span><br><span class="line">T5 --&gt;|hello.copy|F1</span><br><span class="line">T5 --&gt;T3</span><br><span class="line">C4[第4次提交]--&gt;T5</span><br><span class="line">C4 --&gt; C2</span><br><span class="line">C4 --&gt; C3</span><br><span class="line"></span><br><span class="line">M((master)) -.-&gt; C4</span><br><span class="line">D((dev)) -.-&gt; C3</span><br><span class="line">H((HEAD)) -.-&gt; M</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="3-3-2-rebase合并"><a href="#3-3-2-rebase合并" class="headerlink" title="3.3.2 rebase合并"></a>3.3.2 rebase合并</h3><p><strong>思路：</strong>dev基于master合并，开发中最常用的工作模式。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 需要先回滚刚才的操作</span></span><br><span class="line">➜ git reset --hard 92223238a21c13bec2663fe349e8ea1dbfab97bb</span><br><span class="line">HEAD is now at 9222323 add hello.copy</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 切换到dev分支</span></span><br><span class="line">➜ git checkout dev</span><br><span class="line">Switched to branch 'dev'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 执行rebase</span></span><br><span class="line">➜ git rebase master</span><br><span class="line">First, rewinding head to replay your work on top of it...</span><br><span class="line">Applying: third commit</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 然后，一起来看效果吧，dev有了一个新的commit</span></span><br><span class="line">➜ cat .git/refs/heads/dev </span><br><span class="line">6b4df1e31ed4c652f790841f46f30c34abb65c8c</span><br><span class="line">➜  tmp git:(dev) git cat-file -p 6b4df1e31ed4c652f790841f46f30c34abb65c8c</span><br><span class="line">tree 202b85d575214f94ed494ee026e8b2cdb4fcab4f</span><br><span class="line">parent 92223238a21c13bec2663fe349e8ea1dbfab97bb</span><br><span class="line">author Lewis &lt;fangniude@gmail.com&gt; 1583306810 +0800</span><br><span class="line">committer Lewis &lt;fangniude@gmail.com&gt; 1583315190 +0800</span><br><span class="line"></span><br><span class="line">third commit</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 这个commit的parent，是master指向的那次提交，即第2次提交</span></span><br><span class="line">➜  tmp git:(dev) cat .git/refs/heads/master </span><br><span class="line">92223238a21c13bec2663fe349e8ea1dbfab97bb</span><br><span class="line">➜  tmp git:(dev) git cat-file -p 92223238a21c13bec2663fe349e8ea1dbfab97bb</span><br><span class="line">tree 598293c40ffff2b5d26ab7f9d78601e8d8d05d94</span><br><span class="line">parent 528022a97b413fae3f4a8cc0e308e5506a598ea3</span><br><span class="line">author Lewis &lt;fangniude@gmail.com&gt; 1583295073 +0800</span><br><span class="line">committer Lewis &lt;fangniude@gmail.com&gt; 1583295073 +0800</span><br><span class="line"></span><br><span class="line">add hello.copy</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 当然，它指向的树对象，居然是刚才merge时，第4次提交的树对象，因为内容一致，直接重用了</span></span><br><span class="line">➜ git cat-file -p 202b85d575214f94ed494ee026e8b2cdb4fcab4f</span><br><span class="line">100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391	hello.copy</span><br><span class="line">100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391	hello.txt</span><br><span class="line">040000 tree ba015591b2652a669fc5892ff58023af8482e8c3	testBranch</span><br></pre></td></tr></table></figure>
+
+<p><strong>下面是现在的图：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">T1[&#x2F;第1次提交tree&#x2F;] --&gt;|hello.txt| F1(空文件)</span><br><span class="line">C1[第1次提交] --&gt;T1</span><br><span class="line"></span><br><span class="line">T2[&#x2F;第2次提交tree&#x2F;] --&gt;|hello.txt| F1</span><br><span class="line">T2 --&gt;|hell.copy| F1</span><br><span class="line">C2[第2次提交] --&gt;T2</span><br><span class="line">C2 --&gt;C1</span><br><span class="line"></span><br><span class="line">T3[&#x2F;testBranch的tree&#x2F;] --&gt;F2(devAdd.txt)</span><br><span class="line">T5[&#x2F;第5次提交tree&#x2F;] --&gt;|hello.txt| F1</span><br><span class="line">T5[&#x2F;第5次提交tree&#x2F;] --&gt;|hello.copy| F1</span><br><span class="line">T5 --&gt; T3</span><br><span class="line">C5[第5次提交] --&gt; T5</span><br><span class="line">C5 --&gt; C2</span><br><span class="line"></span><br><span class="line">M((master)) -.-&gt; C2</span><br><span class="line">D((dev)) -.-&gt; C5</span><br><span class="line">H((HEAD)) -.-&gt; D</span><br></pre></td></tr></table></figure>
+
+<h1 id="4-标签tag"><a href="#4-标签tag" class="headerlink" title="4. 标签tag"></a>4. 标签tag</h1><p>我们给第2次提交，打个2.0标签，第5次提交打个3.0标签。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 当前在dev分支，即5次提交</span></span><br><span class="line">➜ git tag -a 3.0 -m 'this is 3.0'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 切换到master分支，即第2次提交</span></span><br><span class="line">➜ git checkout master</span><br><span class="line">Switched to branch 'master'</span><br><span class="line"><span class="meta">#</span><span class="bash"> 这个偷个懒，不带什么参数</span></span><br><span class="line">➜ git tag 2.0</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 可以看到，两个tag打好了</span></span><br><span class="line">➜ git tag --list</span><br><span class="line">2.0</span><br><span class="line">3.0</span><br><span class="line">(END)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 再看看refs/tags吧</span></span><br><span class="line">➜ ls -al .git/refs/tags </span><br><span class="line">total 16</span><br><span class="line">drwxr-xr-x  4 lewis  staff  128  3  4 18:17 .</span><br><span class="line">drwxr-xr-x  4 lewis  staff  128  3  4 09:53 ..</span><br><span class="line">-rw-r--r--  1 lewis  staff   41  3  4 18:16 2.0</span><br><span class="line">-rw-r--r--  1 lewis  staff   41  3  4 18:17 3.0</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-1-轻量的tag"><a href="#4-1-轻量的tag" class="headerlink" title="4.1 轻量的tag"></a>4.1 轻量的tag</h2><p>我们先来看2.0这个tag。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 和分支一样，2.0这个tag里面，也是存了一个引用</span></span><br><span class="line">➜ cat .git/refs/tags/2.0 </span><br><span class="line">92223238a21c13bec2663fe349e8ea1dbfab97bb</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 指向的是第2次提交，就像现在的master一样</span></span><br><span class="line">➜ git cat-file -p 92223238a21c13bec2663fe349e8ea1dbfab97bb</span><br><span class="line">tree 598293c40ffff2b5d26ab7f9d78601e8d8d05d94</span><br><span class="line">parent 528022a97b413fae3f4a8cc0e308e5506a598ea3</span><br><span class="line">author Lewis &lt;fangniude@gmail.com&gt; 1583295073 +0800</span><br><span class="line">committer Lewis &lt;fangniude@gmail.com&gt; 1583295073 +0800</span><br><span class="line"></span><br><span class="line">add hello.copy</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-2-重量的tag"><a href="#4-2-重量的tag" class="headerlink" title="4.2 重量的tag"></a>4.2 重量的tag</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 这个也类似</span></span><br><span class="line">➜ cat .git/refs/tags/3.0 </span><br><span class="line">87c71f8bfbbb86ffae62f61f322084654932f85a</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 但它指向了一个没有见过的对象，能看到刚才输入的信息，它指向了另一个object</span></span><br><span class="line">➜ git cat-file -p 87c71f8bfbbb86ffae62f61f322084654932f85a</span><br><span class="line">object 6b4df1e31ed4c652f790841f46f30c34abb65c8c</span><br><span class="line">type commit</span><br><span class="line">tag 3.0</span><br><span class="line">tagger Lewis &lt;fangniude@gmail.com&gt; 1583317040 +0800</span><br><span class="line"></span><br><span class="line">this is 3.0</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 指向了谁呢？当然是第5次提交了</span></span><br><span class="line">➜ git cat-file -p 6b4df1e31ed4c652f790841f46f30c34abb65c8c</span><br><span class="line">tree 202b85d575214f94ed494ee026e8b2cdb4fcab4f</span><br><span class="line">parent 92223238a21c13bec2663fe349e8ea1dbfab97bb</span><br><span class="line">author Lewis &lt;fangniude@gmail.com&gt; 1583306810 +0800</span><br><span class="line">committer Lewis &lt;fangniude@gmail.com&gt; 1583315190 +0800</span><br><span class="line"></span><br><span class="line">third commit</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-3-有tag的图"><a href="#4-3-有tag的图" class="headerlink" title="4.3 有tag的图"></a>4.3 有tag的图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line"></span><br><span class="line">%% 第1次提交</span><br><span class="line">T1[&#x2F;第1次提交tree&#x2F;] --&gt;|hello.txt| F1(空文件)</span><br><span class="line">C1[第1次提交] --&gt;T1</span><br><span class="line"></span><br><span class="line">%% 第2次提交</span><br><span class="line">T2[&#x2F;第2次提交tree&#x2F;] --&gt;|hello.txt| F1</span><br><span class="line">T2 --&gt;|hell.copy| F1</span><br><span class="line">C2[第2次提交] --&gt;T2</span><br><span class="line">C2 --&gt;C1</span><br><span class="line"></span><br><span class="line">%% 第5次提交</span><br><span class="line">T3[&#x2F;testBranch的tree&#x2F;] --&gt;F2(devAdd.txt)</span><br><span class="line">T5[&#x2F;第5次提交tree&#x2F;] --&gt;|hello.txt| F1</span><br><span class="line">T5[&#x2F;第5次提交tree&#x2F;] --&gt;|hello.copy| F1</span><br><span class="line">T5 --&gt; T3</span><br><span class="line">C5[第5次提交] --&gt; T5</span><br><span class="line">C5 --&gt; C2</span><br><span class="line"></span><br><span class="line">%% 分支</span><br><span class="line">M((master)) -.-&gt; C2</span><br><span class="line">D((dev)) -.-&gt; C5</span><br><span class="line">H((HEAD)) -.-&gt; M</span><br><span class="line"></span><br><span class="line">%% tag</span><br><span class="line">2((2.0)) -.-&gt;C2</span><br><span class="line">TAG&gt;Tag对象]--&gt;C5</span><br><span class="line">3((3.0)) -.-&gt;TAG</span><br></pre></td></tr></table></figure>
+
+<h1 id="5-时光机"><a href="#5-时光机" class="headerlink" title="5. 时光机"></a>5. 时光机</h1><h1 id="6-远程remote"><a href="#6-远程remote" class="headerlink" title="6. 远程remote"></a>6. 远程remote</h1><h1 id="7-总结"><a href="#7-总结" class="headerlink" title="7. 总结"></a>7. 总结</h1>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://fangniude.github.com/%E5%8F%91%E8%A1%8C%E5%8F%AF%E8%BD%AC%E5%80%BA%E6%97%B6%EF%BC%8C%E4%B8%8A%E5%B8%82%E5%85%AC%E5%8F%B8%E6%98%AF%E6%80%8E%E4%B9%88%E6%83%B3%E7%9A%84%EF%BC%9F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1503,661 +2428,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://fangniude.github.com/CRON%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="放牛的">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="放牛的">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/CRON%E8%A1%A8%E8%BE%BE%E5%BC%8F/" itemprop="url">CRON表达式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-27T17:06:12+08:00">
-                2019-05-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Spring Scheduler 和 Quartz都支持CRON来定义调度周期。</p>
-<p>CRON表达式由「空格」分割的6部分组成，分别描述「秒、分、时、天、月、周」。</p>
-<p>每部分可以用「星号(*)、数字(0~9)、斜线(/)、逗号(,)、横线(-)」表示，月 和 周还可以用前3个英文字母。</p>
-<ul>
-<li>数字(0~9)：</li>
-<li>星号(*)：所有取值范围的数字</li>
-<li>斜线(/)：代表每，*/5 即每5个单位</li>
-<li>逗号(,)：几个离散的数字</li>
-<li>横线(-)：连续的数字</li>
-</ul>
-<p>例子：</p>
-<ul>
-<li>“0 0 * * * *” = 每天每个小时的整点</li>
-<li>“*/10 * * * * *” = 每10秒钟</li>
-<li>“0 0 8-10 * * *” = 每天的8,9,10整点</li>
-<li>“0 0 6,19 * * *” = 每天的6点和19点两个整点</li>
-<li>“0 0/30 8-10 * * *” = 每天的8:00, 8:30, 9:00, 9:30, 10:00 和 10:30</li>
-<li>“0 0 9-17 * * MON-FRI” = 周一到周五每天的9~17点整点</li>
-<li>“0 0 0 25 12 ?” = 每个圣诞夜0点</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://fangniude.github.com/%E3%80%8C%E8%BD%AC%E3%80%8DNaval%EF%BC%9A%E5%A6%82%E4%BD%95%E4%B8%8D%E9%9D%A0%E8%BF%90%E6%B0%94%E8%87%B4%E5%AF%8C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="放牛的">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="放牛的">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/%E3%80%8C%E8%BD%AC%E3%80%8DNaval%EF%BC%9A%E5%A6%82%E4%BD%95%E4%B8%8D%E9%9D%A0%E8%BF%90%E6%B0%94%E8%87%B4%E5%AF%8C/" itemprop="url">「转」Naval：如何不靠运气致富</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-27T17:06:12+08:00">
-                2019-03-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="注：-本文转自-和菜头-的-槽边往事。"><a href="#注：-本文转自-和菜头-的-槽边往事。" class="headerlink" title="注： 本文转自 和菜头 的 槽边往事。"></a><strong>注：</strong> 本文转自 和菜头 的 槽边往事。</h1><p>一般来说，富人不会分享自己发家致富的秘密。所以，有互联网以来，我看到许多在网上教人致富的人都发了财。在英文博客界，写关于如何发财的博文成为了一个专门的门类。而真正的有钱人只会用心灵鸡汤敷衍一下大众，根本不会提供任何方法论，更不要说是致富秘诀了。</p>
-<p>也有例外。硅谷投资人<strong>Naval Ravikant</strong>在5月31日突然一口气发了40条语录，内容就是关于如何不靠运气而致富。随后这40条文字被不断转发，翻译为多国语言，这一事件史称“推文风暴”。Naval是印度裔移民，20多年来一直在美国硅谷创业。他最著名的创业项目是AngelList，世界股权众筹平台的鼻祖；他最著名的投资项目有两个，一个是Twitter，一个是Uber。</p>
-<p>奇怪的是，国内互联网上的反响并不强烈。按理说这应该是中国人最感兴趣的话题了，而且要比各种心灵鸡汤高好几个段位，为什么会遭到冷遇呢？我分析了一下原因，主要有两点：1、网上的版本翻译得不好，每个中文字都认识，连起来看就不懂了；2、致富这个话题在中文互联网里，已经被鸡汤严重污染了，所以许多人根本理解不了Naval在说什么。</p>
-<p>因此，我决定自己翻译并且注释一下Naval的40条语录：</p>
-<p><strong>How to Get Rich (without getting lucky)</strong></p>
-<p><strong>《如何不靠运气致富》</strong></p>
-<p>作者：<strong>Naval Ravikant</strong></p>
-<p>翻译&amp;注释：<strong>和菜头</strong></p>
-<ol>
-<li>Seek wealth, not money or status. Wealth is having assets that earn while you sleep. Money is how we transfer time and wealth. Status is your place in the social hierarchy.</li>
-</ol>
-<blockquote>
-<p>去寻求财富，而非金钱或地位。财富就是你拥有资产，而资产在你睡觉的时候都还在为你赚钱；金钱是我们转换时间和财富的工具；身份是你在社会等级体系里所处的位置。</p>
-</blockquote>
-<ol start="2">
-<li>Understand that ethical wealth creation is possible. If you secretly despise wealth, it will elude you.</li>
-</ol>
-<blockquote>
-<p>要明白一件事：一个人完全可以不靠坑蒙拐骗站着赚取财富。如果你在暗中鄙视财富，那么财富也会躲着你。</p>
-</blockquote>
-<ol start="3">
-<li>Ignore people playing status games. They gain status by attacking people playing wealth creation games.</li>
-</ol>
-<blockquote>
-<p>别去理会那些热衷于玩身份游戏的人，他们通过攻击那些创造财富的人以获得自己的身份。</p>
-</blockquote>
-<ol start="4">
-<li>You’re not going to get rich renting out your time. You must own equity — a piece of a business — to gain your financial freedom.</li>
-</ol>
-<blockquote>
-<p>你不会通过出租自己的时间而变得富有。你必须拥有产权，也就是生意的一部分，以此才能赢得个人财务自由。</p>
-</blockquote>
-<ol start="5">
-<li>You will get rich by giving society what it wants but do</li>
-</ol>
-<p>es not yet know how to get. At scale.</p>
-<blockquote>
-<p>提供社会大众想要但是他们还不知道如何获取的东西，你就会因此而致富。但有一点：你必须<strong>规模化</strong>地供应社会。</p>
-</blockquote>
-<ol start="6">
-<li>Pick an industry where you can play long term games with long term people.</li>
-</ol>
-<blockquote>
-<p>选择一个你可以长期从事的产业，寻找一批可以一起长期共事的人。</p>
-</blockquote>
-<ol start="7">
-<li>The Internet has massively broadened the possible space of careers. Most people haven’t figured this out yet.</li>
-</ol>
-<blockquote>
-<p>互联网极大拓展了一个人职业生涯的可能性。绝大多数人对此毫无认知。</p>
-</blockquote>
-<ol start="8">
-<li>Play iterated games. All the returns in life, whether in wealth, relationships, or knowledge, come from compound interest.</li>
-</ol>
-<blockquote>
-<p>玩就玩复利游戏。无论是财富，人际关系或者是知识，所有你人生里获得的回报，都来自复利。</p>
-</blockquote>
-<ol start="9">
-<li>Pick business partners with high intelligence, energy, and, above all, integrity.</li>
-</ol>
-<blockquote>
-<p>在选择商业合作伙伴的时候，选择那些高智商、精力旺盛的家伙，但在这一切之上，他应该是个<strong>正直诚实</strong>的人。</p>
-</blockquote>
-<ol start="10">
-<li>Don’t partner with cynics and pessimists. Their beliefs are self-fulfilling.</li>
-</ol>
-<blockquote>
-<p>不要和愤世嫉俗者和悲观主义者合作，因为他们会任由坏事发生，以此证明他们的负面看法是正确的。</p>
-</blockquote>
-<ol start="11">
-<li>Learn to sell. Learn to build. If you can do both, you will be unstoppable.</li>
-</ol>
-<blockquote>
-<p>学会如何销售，学会如何创建。如果你同时能做到这两件事，你的成功将无可阻挡。</p>
-</blockquote>
-<ol start="12">
-<li>Arm yourself with specific knowledge, accountability, and leverage.</li>
-</ol>
-<blockquote>
-<p><strong>用独到知识，责任感和杠杆武装自己。</strong></p>
-</blockquote>
-<ol start="13">
-<li>Specific knowledge is knowledge that you cannot be trained for. If society can train you, it can train someone else, and replace you.</li>
-</ol>
-<blockquote>
-<p><strong>独到知识</strong>是那种不可以通过培训而获得的知识。这是因为，如果这种知识可以经由培训而得，那么其他人同样也可以，并且以此取代你。</p>
-</blockquote>
-<ol start="14">
-<li>Specific knowledge is found by pursuing your genuine curiosity and passion rather than whatever is hot right now.</li>
-</ol>
-<blockquote>
-<p>在真正的好奇心和热情驱使你前进的路上，你更有可能获得独到知识，而不是在追逐潮流热点的闻风起舞脚步里。</p>
-</blockquote>
-<ol start="15">
-<li>Building specific knowledge will feel like play to you but will look like work to others.</li>
-</ol>
-<blockquote>
-<p>创建独到知识的过程对于你就像是在玩，而对于别人则像是工作。</p>
-</blockquote>
-<ol start="16">
-<li>When specific knowledge is taught, it’s through apprenticeships, not schools.</li>
-</ol>
-<blockquote>
-<p>不能通过学校教育教会一个人独到知识，它只能通过<strong>学徒制</strong>口传身教。</p>
-</blockquote>
-<ol start="17">
-<li>Specific knowledge is often highly technical or creative. It cannot be outsourced or automated.</li>
-</ol>
-<blockquote>
-<p>独到知识通常极富技术性和创造性，因此它不能被外包或自动实现。</p>
-</blockquote>
-<ol start="18">
-<li>Embrace accountability, and take business risks under your own name. Society will reward you with responsibility, equity, and leverage.</li>
-</ol>
-<blockquote>
-<p>拥抱责任感，押上自己的声誉以承担商业风险。社会也会以责任，产权和杠杆作为回报。</p>
-</blockquote>
-<ol start="19">
-<li>The most accountable people have singular, public, and risky brands: Oprah, Trump, Kanye, Elon.</li>
-</ol>
-<blockquote>
-<p>最具责任感的人都具有独一无二的、世人皆知的、敢于冒险的个性特征，如奥普拉、川普、坎耶、埃隆。</p>
-</blockquote>
-<ol start="20">
-<li>“Give me a lever long enough, and a place to stand, and I will move the earth.” — Archimedes</li>
-</ol>
-<blockquote>
-<p>只要给我一根足够长的杠杆，一处可以立足的地方，我就能撬起地球。——阿基米德</p>
-</blockquote>
-<ol start="21">
-<li>Fortunes require leverage. Business leverage comes from capital, people, and products with no marginal cost of replication (code and media).</li>
-</ol>
-<blockquote>
-<p>财富增长需要使用杠杆。商业杠杆有三个来源：1、资本；2、人力；3、复制起来边际成本为零的产品（如：代码和媒体）。</p>
-</blockquote>
-<ol start="22">
-<li>Capital means money. To raise money, apply your specific knowledge, with accountability, and show resulting good judgment.</li>
-</ol>
-<blockquote>
-<p>资本的意思就是钱。想要融资，那就运用你的独到知识，配合你责任感，展示出你良好的判断力。</p>
-</blockquote>
-<ol start="23">
-<li>Labor means people working for you. It’s the oldest and most fought-over form of leverage. Labor leverage will impress your parents, but don’t waste your life chasing it.</li>
-</ol>
-<blockquote>
-<p>人力指的就是为你干活的人，它是最古老也是争夺最激烈的杠杆。人力杠杆会让你父母因为你手下有许多人为你工作而感到骄傲，但你不要浪费生命去追求这一点。</p>
-</blockquote>
-<ol start="24">
-<li>Capital and labor are permissioned leverage. Everyone is chasing capital, but someone has to give it to you. Everyone is trying to lead, but someone has to follow you.</li>
-</ol>
-<blockquote>
-<p>资本和劳动力是需要征得许可才能使用的杠杆。每个人都在追逐资本，但总得有个什么人给你才行；每个人都想要领导其它人，但总得有什么人愿意跟着你才行。</p>
-</blockquote>
-<ol start="25">
-<li>Code and media are permissionless leverage. They’re the leverage behind the newly rich. You can create software and media that works for you while you sleep.</li>
-</ol>
-<blockquote>
-<p>代码和媒体是无需要许可即可使用的杠杆。它们是新贵人群背后的杠杆，你可以通过自己创建的软件和媒体，在睡觉时仍然为你干活。</p>
-</blockquote>
-<ol start="26">
-<li>An army of robots is freely available — it’s just packed in data centers for heat and space efficiency. Use it.</li>
-</ol>
-<blockquote>
-<p>一支机器人军团已经集结待命，只是为了节约空间和热效能，它们被打包放进数据中心。去用吧。</p>
-</blockquote>
-<ol start="27">
-<li>If you can’t code, write books and blogs, record videos and podcasts.</li>
-</ol>
-<blockquote>
-<p>如果你不会编程，那你还可以写书和博客，或者做视频或者音频节目。</p>
-</blockquote>
-<ol start="28">
-<li>Leverage is a force multiplier for your judgement.</li>
-</ol>
-<blockquote>
-<p>杠杆能够成倍地放大你的判断力（所产生的效能）。</p>
-</blockquote>
-<ol start="29">
-<li>Judgement requires experience, but can be built faster by learning foundational skills.</li>
-</ol>
-<blockquote>
-<p>判断力需要经验，但它可以通过学习基本技能的方法更快速地建立起来。</p>
-</blockquote>
-<ol start="30">
-<li>There is no skill called “business.” Avoid business magazines and business classes.</li>
-</ol>
-<blockquote>
-<p>并不存在一种叫做“商业”的能力。尽量避开商业杂志和商业课程。</p>
-</blockquote>
-<ol start="31">
-<li>Study microeconomics, game theory, psychology, persuasion, ethics, mathematics, and computers.</li>
-</ol>
-<blockquote>
-<p>去学习微观经济学、博弈论、心理学、说服术、伦理学、数学和计算机科学。</p>
-</blockquote>
-<ol start="32">
-<li>Reading is faster than listening. Doing is faster than watching.</li>
-</ol>
-<blockquote>
-<p>读比听快，做比看快。</p>
-</blockquote>
-<ol start="33">
-<li>You should be too busy to “do coffee,” while still keeping an uncluttered calendar.</li>
-</ol>
-<blockquote>
-<p>你应该忙得没有社交的时间才对，与此同时你应该始终保证日程安排井井有条。</p>
-</blockquote>
-<ol start="34">
-<li>Set and enforce an aspirational personal hourly rate. If fixing a problem will save less than your hourly rate, ignore it. If outsourcing a task will cost less than your hourly rate, outsource it.</li>
-</ol>
-<blockquote>
-<p>你应该为自己设定一个有抱负的个人时薪数，并且坚持执行。如果解决一个问题所能节省下来的成本低于你的个人时薪，那就忽略这个问题好了；如果一项任务的外包成本低于你的个人时薪，就把它外包出去。</p>
-</blockquote>
-<ol start="35">
-<li>Work as hard as you can. Even though who you work with and what you work on are more important than how hard you work.</li>
-</ol>
-<blockquote>
-<p>尽管你跟谁一起工作、做什么工作，要远比你的努力程度更加重要。但还是要倾尽全力去工作。</p>
-</blockquote>
-<ol start="36">
-<li>Become the best in the world at what you do. Keep redefining what you do until this is true.</li>
-</ol>
-<blockquote>
-<p>你所做的事情，要努力做到世界最好。不断重新定义你在做什么，直到真的做到世界最好。</p>
-</blockquote>
-<ol start="37">
-<li>There are no get rich quick schemes. That’s just someone else getting rich off you.</li>
-</ol>
-<blockquote>
-<p>这个世界上并没有快速赚钱致富的方法，如果你想要找寻这种方法，那它只会让别人从你身上赚钱致富。</p>
-</blockquote>
-<ol start="38">
-<li>Apply specific knowledge, with leverage, and eventually you will get what you deserve.</li>
-</ol>
-<blockquote>
-<p>运用你的独到知识，配合上杠杆，最终你会得到你应该得到的东西。</p>
-</blockquote>
-<ol start="39">
-<li>When you’re finally wealthy, you’ll realize that it wasn’t what you were seeking in the first place. But that’s for another day.</li>
-</ol>
-<blockquote>
-<p>终有一天当你变得富有，你会发现那一切并不是你最开始想要的东西。但是那就是另外一回事了。</p>
-</blockquote>
-<p><strong>注释：</strong></p>
-<p>1、财富就是你睡着觉，你的资产也在为你继续赚钱。这是一个越来越被广泛接受的定义。Naval Ravikant是硅谷狂热的数字货币支持者，所以，他的话另有所指。从前后文来看，他所谓的资产并不等于是传统意义上的房产、股票、收藏，而是偏向于他反复提及的：软件和媒体。</p>
-<p>2、出租时间概念，许多人理解为打工，认为打工就是出租自己的时间以换取金钱。其实并非如此，Naval所指的出租时间概念，指的是一个人的财富增长，是否直接关系到他的时间。一个小卖部的老板，他并不为谁打工，但是他的财富增长需要他长时间守在店里，因此，他依然是出租时间换钱。但一个淘宝点卡店老板则不同，他的点卡销售是全自动的，不需要24小时守着，而且也不需要只做这一样生意。这就是Naval所谓互联网拓宽了个人职业生涯的一个例子。</p>
-<p>3、equity我翻译为产权，不是一个很好的翻法。但是Naval前文提到assets，很明显，作为投资人他非常清楚地知道这两个字眼之间的区别。equity无论是翻译为股票、权益或者是资产，原文说“ You must own equity — a piece of a business — to gain your financial freedom.”，这是和出租时间概念做对应的。出租时间的人，在商业链条里作为生产资料出现，不拥有任何产权，也就无法通过商业行为获利，所以，我这里勉强翻译为产权。</p>
-<p>4、specific knowledge我翻译为独到知识，没有翻译为特定知识、专业知识或者是特殊知识。原因是在我的理解中，specific knowledge不是书本知识，也不是学校教授的知识，更不可能在网上免费获取。一方面，它只能提供自己实践来获取；另一方面，它只能通过前人口耳相传。这种知识是做成一件事情的关键，属于知识体系中不共的那一部分。所以，我翻译为独到知识。</p>
-<p>5、“Give me a lever long enough, and a place to stand, and I will move the earth.” — Archimedes 这话不像是阿基米德说的。更像是一次抬杠的结果：</p>
-<p>“给我一个支点，我就能撬起地球！”</p>
-<p>“那么，您站在哪儿呢？”</p>
-<p>“好吧，给我一个支点，再给我一个站立的地方，我就能撬起地球。”</p>
-<p>“那么，您用空气就能撬起地球了？”</p>
-<p>“好吧，给我一根足够长的杠杆，一处可以立足的地方，我就可以翘起地球！”</p>
-<p>“那么，阿基米德先生，支点又不需要了吗？”</p>
-<p>“滚！”</p>
-<p>6、accountability我本想翻译为“靠谱程度”，想想还是算了。</p>
-<p>7、号称是“四十条语录”，但是我就找见了39条。</p>
-<p>8、结合上下文看，Leverage一词始终翻译为“杠杆”其实也不大对头。Naval一再强调代码、博客、播客、视频节目，我觉得Leverage在他那里，有些时候应该相当于是个人影响力的代名词，或者可以简单理解为放大器。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://fangniude.github.com/SQL%E7%9A%84like%E4%B8%AD%E6%A8%A1%E7%B3%8A%E5%8C%B9%E9%85%8D%E7%99%BE%E5%88%86%E5%8F%B7%EF%BC%85/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="放牛的">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="放牛的">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/SQL%E7%9A%84like%E4%B8%AD%E6%A8%A1%E7%B3%8A%E5%8C%B9%E9%85%8D%E7%99%BE%E5%88%86%E5%8F%B7%EF%BC%85/" itemprop="url">SQL的like中模糊匹配百分号％</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-27T17:06:12+08:00">
-                2019-03-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>SQL用like做模糊匹配，如下所示：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> *</span><br><span class="line"><span class="keyword">from</span> student</span><br><span class="line"><span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">like</span> <span class="string">'张%'</span></span><br></pre></td></tr></table></figure>
-
-<p>这样就能匹配到所有姓「张」的学生。</p>
-<p>但这里有个问题，就是当我要匹配的内容中有「%」该怎么办？</p>
-<p>这就用到<code>escape</code>了。</p>
-<p><strong>比如：</strong> 找出名字中含有「%」的论文：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> *</span><br><span class="line"><span class="keyword">from</span> paper</span><br><span class="line"><span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">like</span> <span class="string">'%\%%'</span> escape <span class="string">'\'</span></span><br></pre></td></tr></table></figure>
-
-<p><code>escape</code>的意思是：后面的内容<code>\</code>是前面字符串<code>%\%%</code>的转义字符。这样前面字符串中的第2个<code>%</code>将不再认为是通配符，而被认为是要匹配的内容。</p>
-<p><code>escape</code> 只作用于一个like，当出现多个like都需要转义时，每一个like后面都需要加<code>escape</code>。</p>
-<p><strong>比如：</strong> 找出名字 或 内容中含有「%」的论文：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> *</span><br><span class="line"><span class="keyword">from</span> paper</span><br><span class="line"><span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">like</span> <span class="string">'%\%%'</span> escape <span class="string">'\'</span> <span class="keyword">or</span> <span class="keyword">content</span> <span class="keyword">like</span> <span class="string">'%\%%'</span></span><br></pre></td></tr></table></figure>
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">&lt;i class&#x3D;&quot;fa fa-angle-right&quot;&gt;&lt;&#x2F;i&gt;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">&lt;i class&#x3D;&quot;fa fa-angle-right&quot;&gt;&lt;&#x2F;i&gt;</a>
   </nav>
 
 
@@ -2207,7 +2482,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2220,7 +2495,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/">
-                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

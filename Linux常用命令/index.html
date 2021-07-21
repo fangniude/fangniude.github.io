@@ -203,19 +203,19 @@
 
       
         <p>7z</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装 p7zip</span></span><br><span class="line">yum install p7zip</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 压缩</span></span><br><span class="line">7za a dump.7z dump.sql</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 解压缩</span></span><br><span class="line">7za x dump.7z</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装 p7zip</span></span><br><span class="line">yum install p7zip</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 压缩</span></span><br><span class="line">7za a dump.7z dump.sql</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 解压缩</span></span><br><span class="line">7za x dump.7z</span><br></pre></td></tr></table></figure>
 
 <p>mysql备份</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 为了不输入密码</span></span><br><span class="line">vim ~/.my.cnf</span><br><span class="line"><span class="meta">#</span><span class="bash"> 输入以下内容</span></span><br><span class="line">[mysqldump]</span><br><span class="line">user=root</span><br><span class="line">password=the-password</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> mysqldump 同时7z压缩</span></span><br><span class="line"></span><br><span class="line">mysqldump databaseName | 7za a -si databaseName_2020_01_01.7z</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 为了不输入密码</span></span><br><span class="line">vim ~/.my.cnf</span><br><span class="line"><span class="meta">#</span><span class="bash"> 输入以下内容</span></span><br><span class="line">[mysqldump]</span><br><span class="line">user=root</span><br><span class="line">password=the-password</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> mysqldump 同时7z压缩</span></span><br><span class="line"></span><br><span class="line">mysqldump databaseName | 7za a -si databaseName_2020_01_01.7z</span><br></pre></td></tr></table></figure>
 
 <p>rsync 限速拷贝</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -e "ssh -p 23854" --progress --bwlimit=450 root@192.168.100.200:/path/to/file.7z /path/to/file.7z</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -e &quot;ssh -p 23854&quot; --progress --bwlimit=450 root@192.168.100.200:/path/to/file.7z /path/to/file.7z</span><br></pre></td></tr></table></figure>
 
 <p>该有的权限，却提示没有时</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看权限</span></span><br><span class="line">[root@linux ~]# lsattr YourFile</span><br><span class="line">　　---i---------- YourFile</span><br><span class="line">[root@linux ~]# chattr -i YourFile</span><br><span class="line">[root@linux ~]# lsattr YourFile</span><br><span class="line">　　-------------- YourFile</span><br></pre></td></tr></table></figure>
 
 <p>ps命令用不了（因为中过毒）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> rpm 删掉这个软件</span></span><br><span class="line">rpm -e --nodeps procps</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> yum重新装一下</span></span><br><span class="line">yum install procps</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> rpm 删掉这个软件</span></span><br><span class="line">rpm -e --nodeps procps</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> yum重新装一下</span></span><br><span class="line">yum install procps</span><br></pre></td></tr></table></figure>
 
 
     </div>
@@ -236,12 +236,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/%E6%AF%8F%E4%B8%AA%E7%A8%8B%E5%BA%8F%E5%91%98%E9%83%BD%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84%E7%AD%89%E5%BE%85%E6%97%B6%E9%97%B4/" rel="prev" title="每个程序员都需要知道的等待时间">
-      <i class="fa fa-chevron-left"></i> 每个程序员都需要知道的等待时间
+    <a href="/git%E5%8E%9F%E7%90%86%E5%92%8C%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="prev" title="git原理和常用命令">
+      <i class="fa fa-chevron-left"></i> git原理和常用命令
     </a></div>
       <div class="post-nav-item">
-    <a href="/git%E5%8E%9F%E7%90%86%E5%92%8C%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="next" title="git原理和常用命令">
-      git原理和常用命令 <i class="fa fa-chevron-right"></i>
+    <a href="/%E6%96%87%E4%BB%B6%E7%BC%96%E7%A0%81%E8%BD%AC%E6%8D%A2%EF%BC%9AGBK%E8%BD%ACUTF8/" rel="next" title="文件编码转换：GBK转UTF8">
+      文件编码转换：GBK转UTF8 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>

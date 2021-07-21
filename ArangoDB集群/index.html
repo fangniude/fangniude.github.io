@@ -208,7 +208,7 @@
       
         <h1 id="ArangoDB集群"><a href="#ArangoDB集群" class="headerlink" title="ArangoDB集群"></a>ArangoDB集群</h1><p>本文以简短的篇幅，介绍ArangoDB集群相关的内容，包括 结构、工作原理 和 安装部署，并在最后介绍了一套适合我们的操作指南。</p>
 <h1 id="1-ArangoDB-集群介绍"><a href="#1-ArangoDB-集群介绍" class="headerlink" title="1. ArangoDB 集群介绍"></a>1. ArangoDB 集群介绍</h1><p>关于ArangoDB集群的资料，能看到内容非常少，主要集中在官方文档中的 「架构」这一节。</p>
-<p>地址：<a href="https://docs.arangodb.com/3.3/Manual/Scalability/Architecture.html" target="_blank" rel="noopener">https://docs.arangodb.com/3.3/Manual/Scalability/Architecture.html</a></p>
+<p>地址：<a href="https://docs.arangodb.com/3.3/Manual/Scalability/Architecture.html">https://docs.arangodb.com/3.3/Manual/Scalability/Architecture.html</a></p>
 <h2 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1 概述"></a>1.1 概述</h2><p>ArangoDB，是无单点故障的，主-主模式的，CP架构的集群。</p>
 <p>这一句话有3个点：</p>
 <ul>
@@ -264,16 +264,16 @@
 <h2 id="2-3-ArangoDB-Starter"><a href="#2-3-ArangoDB-Starter" class="headerlink" title="2.3 ArangoDB-Starter"></a>2.3 ArangoDB-Starter</h2><p>最后，只剩下官方提供的ArangoDB-Starter这一套方案了。该方案比纯手工做了一步简化：把3个必须的角色打包，集成到一个命令中。</p>
 <h1 id="3-安装ArangoDB-内网"><a href="#3-安装ArangoDB-内网" class="headerlink" title="3. 安装ArangoDB(内网)"></a>3. 安装ArangoDB(内网)</h1><p>本文以CentOS 6.5 和  ArangoDB 3.3.8 为例，离线安装。</p>
 <h2 id="3-1-安装依赖"><a href="#3-1-安装依赖" class="headerlink" title="3.1 安装依赖"></a>3.1 安装依赖</h2><p>在连网的CentOS 6.5上，用yum deplist arangodb3可以查出，3.3.8版本依赖3个包：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bash.x86_64 4.1.2-48.el6</span><br><span class="line">glibc.x86_64 2.12-1.209.el6</span><br><span class="line">openssl.x86_64 1.0.1e-57.el6</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bash.x86_64 4.1.2-48.el6</span><br><span class="line">glibc.x86_64 2.12-1.209.el6</span><br><span class="line">openssl.x86_64 1.0.1e-57.el6</span><br></pre></td></tr></table></figure>
 
 <p>前2个包已经有了，第3个包需要下载安装。</p>
-<p>下载地址：<a href="https://centos.pkgs.org/6/centos-x86_64/openssl-1.0.1e-57.el6.x86_64.rpm.html" target="_blank" rel="noopener">https://centos.pkgs.org/6/centos-x86_64/openssl-1.0.1e-57.el6.x86_64.rpm.html</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh openssl-1.0.1e-57.el6.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<p>下载地址：<a href="https://centos.pkgs.org/6/centos-x86_64/openssl-1.0.1e-57.el6.x86_64.rpm.html">https://centos.pkgs.org/6/centos-x86_64/openssl-1.0.1e-57.el6.x86_64.rpm.html</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh openssl-1.0.1e-57.el6.x86_64.rpm</span><br></pre></td></tr></table></figure>
 
 <h2 id="3-2-安装ArangoDB"><a href="#3-2-安装ArangoDB" class="headerlink" title="3.2 安装ArangoDB"></a>3.2 安装ArangoDB</h2><p>ArangoDB 分社区版 和 企业版，生产环境建议用 <code>企业版</code>。从福建反馈来看，之前用社区版不稳定，出现假死、自动重启等问题，改用企业版后都没出现过。</p>
-<p>从官方下载企业版：<a href="https://www.arangodb.com/download-arangodb-enterprise/install-enterprise" target="_blank" rel="noopener">https://www.arangodb.com/download-arangodb-enterprise/install-enterprise</a></p>
+<p>从官方下载企业版：<a href="https://www.arangodb.com/download-arangodb-enterprise/install-enterprise">https://www.arangodb.com/download-arangodb-enterprise/install-enterprise</a></p>
 <p>安装：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh arangodb3e-3.3.8-1.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh arangodb3e-3.3.8-1.x86_64.rpm</span><br></pre></td></tr></table></figure>
 
 <p><strong>注：</strong> 如果之前有装过 <code>社区版</code>，则需要加<code>--replacepkgs</code>参数，替换安装。</p>
 <h1 id="4-部署：ArangoDB-Starter"><a href="#4-部署：ArangoDB-Starter" class="headerlink" title="4. 部署：ArangoDB-Starter"></a>4. 部署：ArangoDB-Starter</h1><h2 id="4-1-简介"><a href="#4-1-简介" class="headerlink" title="4.1 简介"></a>4.1 简介</h2><p>以下是该方案的特点：</p>
@@ -287,7 +287,7 @@
 <li>默认AgencySize为3，即前3个节点会启动agent，第4个开始，只启动dbserver 和 coordinator</li>
 </ul>
 <h2 id="4-2-使用方式"><a href="#4-2-使用方式" class="headerlink" title="4.2. 使用方式"></a>4.2. 使用方式</h2><p><strong>注：</strong> 以下指令在<code>3.3.8</code>版本测试通过，不同版本可能会有微小的区别。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 启动Master</span></span><br><span class="line">arangodb --starter.data-dir=/root/arangodb/db1 start</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动其他</span></span><br><span class="line">arangodb --starter.data-dir=/root/arangodb/db2 --starter.join 10.199.132.222 start</span><br><span class="line">arangodb --starter.data-dir=/root/arangodb/db3 --starter.join 10.199.132.222 start</span><br><span class="line">arangodb --starter.data-dir=/root/arangodb/db4 --starter.join 10.199.132.222 start</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 启动Master</span></span><br><span class="line">arangodb --starter.data-dir=/root/arangodb/db1 start</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动其他</span></span><br><span class="line">arangodb --starter.data-dir=/root/arangodb/db2 --starter.join 10.199.132.222 start</span><br><span class="line">arangodb --starter.data-dir=/root/arangodb/db3 --starter.join 10.199.132.222 start</span><br><span class="line">arangodb --starter.data-dir=/root/arangodb/db4 --starter.join 10.199.132.222 start</span><br></pre></td></tr></table></figure>
 
 <p><strong>重申：</strong> Master 概念只是创建集群时的叫法，创建好之后，无Master节点，所有节点地位是一样的。</p>
 <p>全部停止：</p>
@@ -300,21 +300,21 @@
 
 <p><strong>注：</strong> 本示例在多台机器上同样可用。</p>
 <h1 id="5-AQL常用写法"><a href="#5-AQL常用写法" class="headerlink" title="5. AQL常用写法"></a>5. AQL常用写法</h1><p>对于熟悉SQL的同学，可以通过AQL与SQL的比较，来学习这门查询语言，其中的例子非常有用。</p>
-<p>AQL与SQL的比较：<a href="https://www.arangodb.com/why-arangodb/sql-aql-comparison/" target="_blank" rel="noopener">https://www.arangodb.com/why-arangodb/sql-aql-comparison/</a></p>
+<p>AQL与SQL的比较：<a href="https://www.arangodb.com/why-arangodb/sql-aql-comparison/">https://www.arangodb.com/why-arangodb/sql-aql-comparison/</a></p>
 <p>链接中有简单的例子，下面列举有用的，复杂一点的几个例子。</p>
 <h2 id="5-1-分组查询并排序"><a href="#5-1-分组查询并排序" class="headerlink" title="5.1 分组查询并排序"></a>5.1 分组查询并排序</h2><p>集合TPIN_VERTEX_WWD 存在团伙的Key：community_label，根据条件抽出团伙。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">for v in TPIN_VERTEX_WWD</span><br><span class="line">filter v.ishuman &#x3D;&#x3D; &quot;0&quot; &#x2F;&#x2F; 过滤企业，and 用 多个filter，or 用一个filter，条件中间加 or 关键字</span><br><span class="line">filter v.community_label &gt; 0 &#x2F;&#x2F; 过滤community_label 大于0的，等于0的不是团伙</span><br><span class="line">collect thKey &#x3D; v.community_label &#x2F;&#x2F; 按照 团伙的Key来分组</span><br><span class="line">AGGREGATE xkje &#x3D; SUM(v.xkje), &#x2F;&#x2F; 分组内部的SUM</span><br><span class="line">qys &#x3D; count(v),  &#x2F;&#x2F; 内部的count</span><br><span class="line">xkfps &#x3D; SUM(v.xkfps) &#x2F;&#x2F; 另一个SUM</span><br><span class="line">filter qys &gt; 3  &#x2F;&#x2F; 根据分组后的条件来过滤，即 group by having</span><br><span class="line">sort xkje desc &#x2F;&#x2F; 用分组后的来排序</span><br><span class="line">return &#123;key: thKey, xkje: xkje, qys: qys, xkfps: xkfps&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">for v in TPIN_VERTEX_WWD</span><br><span class="line">filter v.ishuman == &quot;0&quot; // 过滤企业，and 用 多个filter，or 用一个filter，条件中间加 or 关键字</span><br><span class="line">filter v.community_label &gt; 0 // 过滤community_label 大于0的，等于0的不是团伙</span><br><span class="line">collect thKey = v.community_label // 按照 团伙的Key来分组</span><br><span class="line">AGGREGATE xkje = SUM(v.xkje), // 分组内部的SUM</span><br><span class="line">qys = count(v),  // 内部的count</span><br><span class="line">xkfps = SUM(v.xkfps) // 另一个SUM</span><br><span class="line">filter qys &gt; 3  // 根据分组后的条件来过滤，即 group by having</span><br><span class="line">sort xkje desc // 用分组后的来排序</span><br><span class="line">return &#123;key: thKey, xkje: xkje, qys: qys, xkfps: xkfps&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="5-2-使用变量"><a href="#5-2-使用变量" class="headerlink" title="5.2 使用变量"></a>5.2 使用变量</h2><p>查询某一团伙所有的点和边。团伙只和点关联，和边并没有关联。</p>
 <p>如果用图遍历来查团伙中所有的点和边，数据量大了，图深了，性能非常差。图的深度设的少了，很可能会不全。</p>
 <p>但是，如果单独查 点，再根据点查边，就会非常快。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">LET ids &#x3D; (FOR v IN TPIN_VERTEX_WWD </span><br><span class="line">			FILTER v.community_label &#x3D;&#x3D; @thKey </span><br><span class="line">			RETURN v._id) &#x2F;&#x2F; 点的数组赋值为一变量，放到最前面</span><br><span class="line">FOR e IN TPIN_EDGE_WWD </span><br><span class="line">FILTER e._from in ids </span><br><span class="line">FILTER e._to in ids </span><br><span class="line">RETURN DISTINCT e</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">LET ids = (FOR v IN TPIN_VERTEX_WWD </span><br><span class="line">			FILTER v.community_label == @thKey </span><br><span class="line">			RETURN v._id) // 点的数组赋值为一变量，放到最前面</span><br><span class="line">FOR e IN TPIN_EDGE_WWD </span><br><span class="line">FILTER e._from in ids </span><br><span class="line">FILTER e._to in ids </span><br><span class="line">RETURN DISTINCT e</span><br></pre></td></tr></table></figure>
 
 <p><strong>注意：</strong> 此例中，不要将 LET 放在 FOR 之后，FILTER之前，那样性能会差。实际测试过一个例子，边总数为2000，点的数量为1000，时间上一个是9ms，一个是118ms。</p>
 <h1 id="6-AQL性能优化"><a href="#6-AQL性能优化" class="headerlink" title="6. AQL性能优化"></a>6. AQL性能优化</h1><p>要把AQL想象成编程语言，而不是SQL。</p>
 <h2 id="6-1-使用LET"><a href="#6-1-使用LET" class="headerlink" title="6.1 使用LET"></a>6.1 使用LET</h2><p>见 5.2 使用变量</p>
 <h2 id="6-2-图查询广度优先"><a href="#6-2-图查询广度优先" class="headerlink" title="6.2 图查询广度优先"></a>6.2 图查询广度优先</h2><p>在用图查询时，一般都加以下选项，用广度优先，性能好很多。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OPTIONS &#123;bfs: true, uniqueVertices: &#39;global&#39;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OPTIONS &#123;bfs: true, uniqueVertices: &#x27;global&#x27;&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="6-3-索引"><a href="#6-3-索引" class="headerlink" title="6.3 索引"></a>6.3 索引</h2>
     </div>

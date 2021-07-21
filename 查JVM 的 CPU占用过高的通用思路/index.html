@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"fangniude.github.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="1、哪些线程使用过高？ 1top -H -p &lt;PID&gt;   可以按CPU使用运行排序，在top中按P。 2、把这些线程号记录下来； 3、打印JVM的堆栈信息： 1jstack $&amp;#123;PID&amp;#125; &gt; $&amp;#123;JSTACK_FILE&amp;#125;;  4、把线程号转成16进制，到文件中找到这些线程； 5、根据线程的堆栈，分析具体原因。">
+  <meta name="description" content="1、哪些线程使用过高？ 1top -H -p &lt;PID&gt;    可以按CPU使用运行排序，在top中按P。 2、把这些线程号记录下来； 3、打印JVM的堆栈信息： 1jstack $&amp;#123;PID&amp;#125; &gt; $&amp;#123;JSTACK_FILE&amp;#125;;   4、把线程号转成16进制，到文件中找到这些线程； 5、根据线程的堆栈，分析具体原因。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="查JVM 的 CPU占用过高的通用思路">
 <meta property="og:url" content="https://fangniude.github.com/%E6%9F%A5JVM%20%E7%9A%84%20CPU%E5%8D%A0%E7%94%A8%E8%BF%87%E9%AB%98%E7%9A%84%E9%80%9A%E7%94%A8%E6%80%9D%E8%B7%AF/">
 <meta property="og:site_name" content="放牛的">
-<meta property="og:description" content="1、哪些线程使用过高？ 1top -H -p &lt;PID&gt;   可以按CPU使用运行排序，在top中按P。 2、把这些线程号记录下来； 3、打印JVM的堆栈信息： 1jstack $&amp;#123;PID&amp;#125; &gt; $&amp;#123;JSTACK_FILE&amp;#125;;  4、把线程号转成16进制，到文件中找到这些线程； 5、根据线程的堆栈，分析具体原因。">
+<meta property="og:description" content="1、哪些线程使用过高？ 1top -H -p &lt;PID&gt;    可以按CPU使用运行排序，在top中按P。 2、把这些线程号记录下来； 3、打印JVM的堆栈信息： 1jstack $&amp;#123;PID&amp;#125; &gt; $&amp;#123;JSTACK_FILE&amp;#125;;   4、把线程号转成16进制，到文件中找到这些线程； 5、根据线程的堆栈，分析具体原因。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2014-01-08T09:06:12.000Z">
 <meta property="article:modified_time" content="2021-07-20T03:36:37.652Z">
@@ -203,12 +203,12 @@
 
       
         <p>1、哪些线程使用过高？</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top -H -p &lt;PID&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top -H -p &lt;PID&gt; </span><br></pre></td></tr></table></figure>
 
 <p> 可以按CPU使用运行排序，在top中按P。</p>
 <p>2、把这些线程号记录下来；</p>
 <p>3、打印JVM的堆栈信息：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstack $&#123;PID&#125; &gt; $&#123;JSTACK_FILE&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstack $&#123;PID&#125; &gt; $&#123;JSTACK_FILE&#125;; </span><br></pre></td></tr></table></figure>
 
 <p>4、把线程号转成16进制，到文件中找到这些线程；</p>
 <p>5、根据线程的堆栈，分析具体原因。</p>

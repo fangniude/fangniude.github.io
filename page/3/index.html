@@ -201,19 +201,19 @@
       
           <p>为了在本机上方便用jvisualvm看linux机器上JVM运行状况，昨天配了一下jstatsd，网上教程很多。</p>
 <p>1、先写jstatd.policy文件：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grant codebase "file:/root/softs/jdk1.7.0_45/lib/tools.jar" &#123; </span><br><span class="line">  permission java.security.AllPermission; </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grant codebase &quot;file:/root/softs/jdk1.7.0_45/lib/tools.jar&quot; &#123; </span><br><span class="line">  permission java.security.AllPermission; </span><br><span class="line">&#125;; </span><br></pre></td></tr></table></figure>
 
 <p>2、写启动脚本：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash </span></span><br><span class="line"></span><br><span class="line">/root/softs/jdk1.7.0_45/bin/jstatd -p 1088 -J-Djava.security.policy=/root/deploys/tagdataserv/jstatd/jstatd.policy -J-Djava.rmi.server.logCalls=true -J-Djava.rmi.server.hostname=192.168.1.8</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span> </span><br><span class="line"></span><br><span class="line">/root/softs/jdk1.7.0_45/bin/jstatd -p 1088 -J-Djava.security.policy=/root/deploys/tagdataserv/jstatd/jstatd.policy -J-Djava.rmi.server.logCalls=true -J-Djava.rmi.server.hostname=192.168.1.8 </span><br></pre></td></tr></table></figure>
 
 <p>3、启动。</p>
 <h2 id="我遇到的几个问题："><a href="#我遇到的几个问题：" class="headerlink" title="我遇到的几个问题："></a>我遇到的几个问题：</h2><p>1、从网上拷下来后，字符串改错了，把路径写错了； </p>
 <p>2、这台机器上有2个JDK，一个1.6的，一个是1.7的，我在statd.policy里配的是1.7的路径，却用1.6的statd来启动，就出错了； </p>
 <p>3、远程连接不上，原因是这台机器的localhost 指向的是127.0.0.1，不愿改hosts，可以加参数来解决：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-J-Djava.rmi.server.hostname=192.168.1.8</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-J-Djava.rmi.server.hostname=192.168.1.8  </span><br></pre></td></tr></table></figure>
 
 <p>4、最后发现，可以不用配jstatd，在需要远程监控的JVM启动的时候，加些启动参数，用JMX即可：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-Dcom.sun.management.jmxremote.port=1099 </span><br><span class="line">-Dcom.sun.management.jmxremote.ssl=false </span><br><span class="line">-Dcom.sun.management.jmxremote.authenticate=false </span><br><span class="line">-Djava.rmi.server.hostname=192.168.1.8</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-Dcom.sun.management.jmxremote.port=1099 </span><br><span class="line">-Dcom.sun.management.jmxremote.ssl=false </span><br><span class="line">-Dcom.sun.management.jmxremote.authenticate=false </span><br><span class="line">-Djava.rmi.server.hostname=192.168.1.8 </span><br></pre></td></tr></table></figure>
 
 
       
@@ -280,12 +280,12 @@
 
       
           <p>1、哪些线程使用过高？</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top -H -p &lt;PID&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top -H -p &lt;PID&gt; </span><br></pre></td></tr></table></figure>
 
 <p> 可以按CPU使用运行排序，在top中按P。</p>
 <p>2、把这些线程号记录下来；</p>
 <p>3、打印JVM的堆栈信息：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstack $&#123;PID&#125; &gt; $&#123;JSTACK_FILE&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstack $&#123;PID&#125; &gt; $&#123;JSTACK_FILE&#125;; </span><br></pre></td></tr></table></figure>
 
 <p>4、把线程号转成16进制，到文件中找到这些线程；</p>
 <p>5、根据线程的堆栈，分析具体原因。</p>

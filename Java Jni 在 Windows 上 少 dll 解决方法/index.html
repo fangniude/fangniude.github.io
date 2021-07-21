@@ -204,9 +204,9 @@
       
         <p>测试报上来一个问题，我们几个开发机器上都不能重现，仔细看了下异常提示，确定是这台Windows测试机器少dll。</p>
 <p>这个项目用到leveldbjni-all这个内置jni的包，但少了系统的dll，这个Jar就不能正常工作了。</p>
-<h3 id="1-如何知道少了哪些dll呢？"><a href="#1-如何知道少了哪些dll呢？" class="headerlink" title="1. 如何知道少了哪些dll呢？"></a>1. 如何知道少了哪些dll呢？</h3><p>找到一个比较好的工具：<a href="http://www.dependencywalker.com/" target="_blank" rel="noopener">DllWalker</a></p>
+<h3 id="1-如何知道少了哪些dll呢？"><a href="#1-如何知道少了哪些dll呢？" class="headerlink" title="1. 如何知道少了哪些dll呢？"></a>1. 如何知道少了哪些dll呢？</h3><p>找到一个比较好的工具：<a href="http://www.dependencywalker.com/">DllWalker</a></p>
 <p>这是一个绿色软件，从官方下载下来，双击depends.exe即可运行，点 打开，选 leveldbjni.dll，这个软件会分析出来 缺少哪些dll，当把这次提示的dll都装好后，F5刷新一下，可能还会有新的未安装的dll，这些是刚才安装的dll的依赖。</p>
-<h3 id="2-dll到哪儿找呢？"><a href="#2-dll到哪儿找呢？" class="headerlink" title="2. dll到哪儿找呢？"></a>2. dll到哪儿找呢？</h3><p>这个网站不错：<a href="http://www.dll-files.com/" target="_blank" rel="noopener">dll-files.com</a></p>
+<h3 id="2-dll到哪儿找呢？"><a href="#2-dll到哪儿找呢？" class="headerlink" title="2. dll到哪儿找呢？"></a>2. dll到哪儿找呢？</h3><p>这个网站不错：<a href="http://www.dll-files.com/">dll-files.com</a></p>
 <p>我要找的dll，都能搜到，并且提供多个版本供选择。下载过来的一个包含dll的压缩包，需要解压出dll才能放到Windows/System32下面去。</p>
 
     </div>
